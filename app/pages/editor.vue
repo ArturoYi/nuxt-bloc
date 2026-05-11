@@ -69,7 +69,7 @@ useSiteSeo({
       <div class="editor-pane">
         <div class="editor-pane__title">预览区</div>
         <div class="editor-preview prose">
-          <MDC :value="md" tag="article" />
+          <MDC :value="md" :parser-options="{ highlight: false }" tag="article" />
         </div>
       </div>
     </section>

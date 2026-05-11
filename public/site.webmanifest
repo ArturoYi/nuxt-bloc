@@ -4,8 +4,8 @@
   "description": "基于 Nuxt 4 与 Nuxt Content 的纯静态内容站点。",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f6f7fb",
-  "theme_color": "#6d5efc",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
   "icons": [
     {
       "src": "/favicon.svg",

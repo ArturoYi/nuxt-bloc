@@ -1,4 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const env = (
+  globalThis as typeof globalThis & {
+    process?: {
+      env?: Record<string, string | undefined>
+    }
+  }
+).process?.env ?? {}
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -15,7 +23,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#6d5efc' },
+        { name: 'theme-color', content: '#0b1020' },
         {
           name: 'description',
           content: '基于 Nuxt 4 与 Nuxt Content 的纯静态博客起步项目。',
@@ -26,7 +34,7 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'alternate icon', href: '/favicon.ico' },
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.svg' },
-        { rel: 'mask-icon', href: '/mask-icon.svg', color: '#6d5efc' },
+        { rel: 'mask-icon', href: '/mask-icon.svg', color: '#646cff' },
         { rel: 'manifest', href: '/site.webmanifest' },
       ],
     },
@@ -34,11 +42,11 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://example.com',
+      siteUrl: env.NUXT_PUBLIC_SITE_URL || 'https://example.com',
       siteTitle: 'Nuxt Bloc',
       siteDescription: '基于 Nuxt 4 与 Nuxt Content 的纯静态博客起步项目。',
       defaultOgImage: '/og-default.svg',
-      twitterHandle: process.env.NUXT_PUBLIC_TWITTER_HANDLE || '',
+      twitterHandle: env.NUXT_PUBLIC_TWITTER_HANDLE || '',
     },
   },
 
