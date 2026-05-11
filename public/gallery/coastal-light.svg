@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+  <defs>
+    <linearGradient id="coastSky" x1="800" y1="0" x2="800" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF0E4"/>
+      <stop offset=".55" stop-color="#DDE8F9"/>
+      <stop offset="1" stop-color="#BDD0EA"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#coastSky)"/>
+  <rect y="580" width="1600" height="420" fill="#AFC5D9"/>
+  <path d="M0 710C160 680 300 664 470 688C660 714 810 758 980 776C1170 796 1370 786 1600 740V1000H0V710Z" fill="#8BA5BC"/>
+  <path d="M0 640C130 612 260 605 420 623C620 648 820 710 1050 722C1245 732 1430 712 1600 670" stroke="#FFF7F0" stroke-width="14" stroke-linecap="round" opacity=".5"/>
+  <circle cx="1240" cy="220" r="70" fill="#FFD4A8" opacity=".86"/>
+  <path d="M140 818C360 788 640 795 890 842C1080 878 1300 880 1485 856" stroke="#E7F5FF" stroke-width="10" stroke-linecap="round" opacity=".62"/>
+</svg>

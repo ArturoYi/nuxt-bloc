@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="800" y1="0" x2="800" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF5D6"/>
+      <stop offset="0.45" stop-color="#D8E7FF"/>
+      <stop offset="1" stop-color="#9BC0E8"/>
+    </linearGradient>
+    <linearGradient id="water" x1="800" y1="560" x2="800" y2="1000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#87B5DB"/>
+      <stop offset="1" stop-color="#5E87B3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect y="560" width="1600" height="440" fill="url(#water)"/>
+  <ellipse cx="770" cy="250" rx="180" ry="110" fill="#FFE7A3" opacity=".8"/>
+  <path d="M0 590C180 470 345 450 520 530C675 600 810 610 980 560C1155 510 1340 500 1600 570V730H0V590Z" fill="#6F8AA2" opacity=".58"/>
+  <path d="M0 640C210 560 360 550 560 615C760 680 920 690 1110 635C1290 582 1455 585 1600 630V760H0V640Z" fill="#8DA8BF" opacity=".72"/>
+  <path d="M150 790C340 760 520 760 720 792C925 824 1120 828 1450 784" stroke="#E6F3FF" stroke-width="12" stroke-linecap="round" opacity=".45"/>
+  <path d="M220 845C430 822 680 825 930 852C1120 872 1275 870 1420 850" stroke="#F8FDFF" stroke-width="9" stroke-linecap="round" opacity=".55"/>
+</svg>

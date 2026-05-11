@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1500" fill="none">
+  <defs>
+    <linearGradient id="forest" x1="550" y1="0" x2="550" y2="1500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E5F4DE"/>
+      <stop offset=".45" stop-color="#98CDA2"/>
+      <stop offset="1" stop-color="#4B7B5D"/>
+    </linearGradient>
+  </defs>
+  <rect width="1100" height="1500" fill="url(#forest)"/>
+  <rect x="80" y="0" width="110" height="1500" fill="#244B34" opacity=".75"/>
+  <rect x="250" y="0" width="90" height="1500" fill="#31583F" opacity=".8"/>
+  <rect x="760" y="0" width="100" height="1500" fill="#2A5238" opacity=".82"/>
+  <rect x="930" y="0" width="120" height="1500" fill="#1F442E" opacity=".76"/>
+  <path d="M400 1500L540 860L700 1500H400Z" fill="#D8C38E"/>
+  <path d="M480 1500L550 960L620 1500H480Z" fill="#EFE0B8"/>
+  <circle cx="520" cy="320" r="190" fill="#F4F9D9" opacity=".26"/>
+  <circle cx="730" cy="510" r="120" fill="#E5FFD8" opacity=".18"/>
+</svg>
