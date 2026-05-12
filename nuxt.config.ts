@@ -1,4 +1,6 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import { SITE_BRAND_NAME, SITE_DESCRIPTION } from './app/constants/site'
+
+// Nuxt 配置入口，集中定义全局模块、样式和静态生成行为。
 const env = (
   globalThis as typeof globalThis & {
     process?: {
@@ -15,20 +17,21 @@ export default defineNuxtConfig({
 
   modules: ['@nuxt/content', '@nuxtjs/mdc'],
 
+  // 通过单一入口聚合主题、基础、布局和内容样式，方便后续继续拆分。
   css: ['~/assets/css/main.css', 'katex/dist/katex.min.css'],
 
   app: {
     head: {
-      title: 'Nuxt Bloc',
+      title: SITE_BRAND_NAME,
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'theme-color', content: '#0b1020' },
         {
           name: 'description',
-          content: '基于 Nuxt 4 与 Nuxt Content 的纯静态博客起步项目。',
+          content: SITE_DESCRIPTION,
         },
-        { property: 'og:site_name', content: 'Nuxt Bloc' },
+        { property: 'og:site_name', content: SITE_BRAND_NAME },
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
@@ -43,8 +46,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteUrl: env.NUXT_PUBLIC_SITE_URL || 'https://example.com',
-      siteTitle: 'Nuxt Bloc',
-      siteDescription: '基于 Nuxt 4 与 Nuxt Content 的纯静态博客起步项目。',
+      siteTitle: SITE_BRAND_NAME,
+      siteDescription: SITE_DESCRIPTION,
       defaultOgImage: '/og-default.svg',
       twitterHandle: env.NUXT_PUBLIC_TWITTER_HANDLE || '',
     },

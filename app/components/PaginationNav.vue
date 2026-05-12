@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// 分页组件只负责页码计算和链接输出，具体跳转规则交给上层传入。
 const props = defineProps<{
   currentPage: number
   totalPages: number

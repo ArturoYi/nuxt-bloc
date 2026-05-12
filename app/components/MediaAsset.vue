@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// 将可预览图片的交互集中在组件内部，页面层只需要传入资源信息。
 const props = withDefaults(defineProps<{
   src: string
   alt: string
@@ -32,6 +33,7 @@ function onKeydown(event: KeyboardEvent) {
     closePreview()
 }
 
+// 监听弹层开关，同步处理滚动锁定与 ESC 关闭行为。
 watch(isOpen, (open) => {
   if (!import.meta.client)
     return
