@@ -258,3 +258,20 @@ onMounted(() => {
     <canvas ref="canvasRef" class="art-dots__canvas" />
   </div>
 </template>
+
+<style scoped>
+.art-dots {
+  position: fixed;
+  inset: 0;
+  /* 勿用负 z-index：会落到 html/body 实色背景之下，整层不可见。 */
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.art-dots__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+</style>

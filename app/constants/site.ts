@@ -9,11 +9,11 @@ export type SiteFooterLink = {
   href?: string
 }
 
-export const SITE_BRAND_NAME = 'Nuxt Bloc'
+export const SITE_BRAND_NAME = 'Nuxt Demo'
 export const SITE_TAGLINE = 'Content-first static journal'
 export const SITE_DESCRIPTION = '基于 Nuxt 4、Nuxt Content 与 generate 的静态内容站点示例。'
 export const SITE_FOOTER_DESCRIPTION = SITE_DESCRIPTION
-export const SITE_HOME_INTRO = '你好，这里是我的个人博客，记录开发、设计与日常里值得保留的想法。'
+export const SITE_HOME_INTRO = '你好，这里是Nuxt Demo'
 
 export const siteNavigationItems: SiteNavigationItem[] = [
   { to: '/blog', label: '博客' },

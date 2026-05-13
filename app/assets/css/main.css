@@ -1,9 +1,5 @@
-/* 全局样式入口：按主题、基础、布局、组件和内容层级依次加载。 */
+/* 全局样式入口：按主题、基础、布局层级依次加载。 */
 @import "./theme.css";
 @import "./base.css";
 @import "./layout.css";
 @import "./layout/site-header.css";
-@import "./art-dots.css";
-@import "./media-asset.css";
-@import "./pagination-nav.css";
-@import "./content.css";

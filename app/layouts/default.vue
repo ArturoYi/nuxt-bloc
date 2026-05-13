@@ -55,57 +55,59 @@ onBeforeUnmount(() => {
   <div class="site-shell">
     <ArtDotsBackground />
 
-    <SiteHeader
-      :brand-name="SITE_BRAND_NAME"
-      :tagline="SITE_TAGLINE"
-      :navigation-items="siteNavigationItems"
-      :is-dark="isDark"
-      :theme-toggle-label="themeToggleLabel"
-      :is-mobile-menu-open="isMobileMenuOpen"
-      @toggle-theme="toggleTheme"
-      @toggle-mobile-menu="toggleMobileMenu"
-    />
+    <div class="site-shell__foreground">
+      <SiteHeader
+        :brand-name="SITE_BRAND_NAME"
+        :tagline="SITE_TAGLINE"
+        :navigation-items="siteNavigationItems"
+        :is-dark="isDark"
+        :theme-toggle-label="themeToggleLabel"
+        :is-mobile-menu-open="isMobileMenuOpen"
+        @toggle-theme="toggleTheme"
+        @toggle-mobile-menu="toggleMobileMenu"
+      />
 
-    <Transition name="site-mobile-overlay">
-      <div
-        v-if="isMobileMenuOpen"
-        id="site-header-mobile-menu"
-        class="site-mobile-menu-overlay"
-        @click.self="closeMobileMenu"
-      >
-        <nav class="site-nav site-nav--mobile" aria-label="移动端主导航">
-          <NuxtLink
-            v-for="item in siteNavigationItems"
-            :key="item.to"
-            :to="item.to"
-            class="site-nav__link"
-            @click="closeMobileMenu"
-          >
-            {{ item.label }}
-          </NuxtLink>
+      <Transition name="site-mobile-overlay">
+        <div
+          v-if="isMobileMenuOpen"
+          id="site-header-mobile-menu"
+          class="site-mobile-menu-overlay"
+          @click.self="closeMobileMenu"
+        >
+          <nav class="site-nav site-nav--mobile" aria-label="移动端主导航">
+            <NuxtLink
+              v-for="item in siteNavigationItems"
+              :key="item.to"
+              :to="item.to"
+              class="site-nav__link"
+              @click="closeMobileMenu"
+            >
+              {{ item.label }}
+            </NuxtLink>
 
-          <button
-            type="button"
-            class="theme-toggle theme-toggle--mobile"
-            :aria-label="themeToggleLabel"
-            @click="toggleTheme($event)"
-          >
-            <span class="theme-toggle__icon" aria-hidden="true">
-              {{ isDark ? '☀' : '☾' }}
-            </span>
-          </button>
-        </nav>
-      </div>
-    </Transition>
+            <button
+              type="button"
+              class="theme-toggle theme-toggle--mobile"
+              :aria-label="themeToggleLabel"
+              @click="toggleTheme($event)"
+            >
+              <span class="theme-toggle__icon" aria-hidden="true">
+                {{ isDark ? '☀' : '☾' }}
+              </span>
+            </button>
+          </nav>
+        </div>
+      </Transition>
 
-    <SiteMain>
-      <slot />
-    </SiteMain>
+      <SiteMain>
+        <slot />
+      </SiteMain>
 
-    <SiteFooter
-      :title="SITE_BRAND_NAME"
-      :description="SITE_FOOTER_DESCRIPTION"
-      :links="siteFooterLinks"
-    />
+      <SiteFooter
+        :title="SITE_BRAND_NAME"
+        :description="SITE_FOOTER_DESCRIPTION"
+        :links="siteFooterLinks"
+      />
+    </div>
   </div>
 </template>
