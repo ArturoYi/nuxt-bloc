@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { contentCover } from '~~/utils/content'
-
 const route = useRoute()
 
 const { data: page } = await useAsyncData(`page:${route.path}`, () => {
@@ -18,8 +16,6 @@ useSiteSeo({
   title: page.value.seo?.title || page.value.title,
   description: page.value.seo?.description || page.value.description,
   path: route.path,
-  image: contentCover(page.value),
-  imageAlt: page.value.title,
   type: 'article',
 })
 </script>
@@ -35,15 +31,6 @@ useSiteSeo({
     </div>
 
     <article v-if="page" class="content-card">
-      <div v-if="contentCover(page)" class="article-cover">
-        <MediaAsset
-          :src="contentCover(page)!"
-          :alt="page.title"
-          :preview-label="`预览 ${page.title} 封面图`"
-          :lazy="false"
-        />
-      </div>
-
       <header class="article-header">
         <p class="eyebrow">{{ page.category || '文章' }}</p>
         <h1>{{ page.title }}</h1>
@@ -57,7 +44,6 @@ useSiteSeo({
           </div>
         </div>
       </header>
-
       <ContentRenderer :value="page" prose />
     </article>
   </div>

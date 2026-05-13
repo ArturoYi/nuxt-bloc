@@ -18,7 +18,7 @@ type RenderProfile = {
 const props = withDefaults(defineProps<{
   density?: number
 }>(), {
-  density: 1.25,
+  density: 1.8,
 })
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)

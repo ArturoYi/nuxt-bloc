@@ -39,7 +39,7 @@ useSiteSeo({
           v-for="category in categories"
           :key="category"
           class="filter-chip"
-          :to="`/blog/category/${encodeURIComponent(category)}`"
+          :to="{ path: '/blog', query: { category } }"
         >
           {{ category }}
         </NuxtLink>
@@ -56,7 +56,7 @@ useSiteSeo({
           <span>{{ note.date || '未填写日期' }}</span>
           <NuxtLink
             v-if="note.category"
-            :to="`/blog/category/${encodeURIComponent(note.category)}`"
+            :to="{ path: '/blog', query: { category: note.category } }"
           >
             {{ note.category }}
           </NuxtLink>
@@ -64,8 +64,10 @@ useSiteSeo({
         </div>
 
         <div class="archive-card__body">
-          <h3>
-            <NuxtLink :to="note.path">{{ note.title }}</NuxtLink>
+          <h3 class="archive-card__title">
+            <NuxtLink class="archive-card__title-link" :to="note.path">
+              <span class="archive-card__title-text">{{ note.title }}</span>
+            </NuxtLink>
           </h3>
           <p>{{ note.description }}</p>
           <div class="tag-row">

@@ -1,14 +1,13 @@
 ---
 title: 第一篇文章：把最小闭环跑通
 description: 先确认 Nuxt 项目、内容系统、页面路由和 generate 都能工作，再继续扩展。
-date: 2026-05-11
+date: 2027-05-11
 category: 起步
 tags:
   - nuxt
   - content
   - static
 published: true
-cover: /blog/bootstrap-cover.svg
 ---
 
 # 第一篇文章：把最小闭环跑通

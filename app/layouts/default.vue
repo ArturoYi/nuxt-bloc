@@ -2,7 +2,6 @@
 import {
   SITE_BRAND_NAME,
   SITE_FOOTER_DESCRIPTION,
-  SITE_TAGLINE,
   siteFooterLinks,
   siteNavigationItems,
 } from '~/constants/site'
@@ -57,8 +56,6 @@ onBeforeUnmount(() => {
 
     <div class="site-shell__foreground">
       <SiteHeader
-        :brand-name="SITE_BRAND_NAME"
-        :tagline="SITE_TAGLINE"
         :navigation-items="siteNavigationItems"
         :is-dark="isDark"
         :theme-toggle-label="themeToggleLabel"

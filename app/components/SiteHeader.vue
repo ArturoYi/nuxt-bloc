@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import type { SiteNavigationItem } from '~/constants/site'
 
-// 通过 props 暴露导航与品牌信息，后续替换站点文案时只需要改上层配置。
 const props = defineProps<{
-  brandName: string
-  tagline: string
   navigationItems: SiteNavigationItem[]
   isDark: boolean
   themeToggleLabel: string
@@ -20,18 +17,8 @@ const emit = defineEmits<{
 <template>
   <header class="site-header">
     <div class="container site-header__inner">
-      <NuxtLink to="/" class="site-brand" aria-label="返回首页">
-        <span class="site-brand__icon" aria-hidden="true">
-          NB
-        </span>
-        <span class="site-brand__content">
-          <span class="site-brand__title">
-            {{ props.brandName }}
-          </span>
-          <span class="site-brand__tagline">
-            {{ props.tagline }}
-          </span>
-        </span>
+      <NuxtLink to="/" class="site-brand">
+        <span class="site-brand__name">Arlen</span>
       </NuxtLink>
 
       <div class="site-header__desktop-actions">

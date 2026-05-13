@@ -20,11 +20,6 @@ export default eventHandler(async (event) => {
   const categoryRoutes = [
     ...new Set(
       entries
-        .filter(entry => entry.category && entry.path?.startsWith('/blog/'))
-        .map(entry => `/blog/category/${encodeURIComponent(entry.category!)}`),
-    ),
-    ...new Set(
-      entries
         .filter(entry => entry.category && entry.path?.startsWith('/gallery/'))
         .map(entry => `/gallery/category/${encodeURIComponent(entry.category!)}`),
     ),

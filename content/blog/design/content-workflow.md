@@ -1,14 +1,13 @@
 ---
 title: 内容工作流：文章、图库与静态生成
 description: 当博客和照片墙都放进同一个内容模型后，分类、分页、RSS 与站点地图都会变得更容易维护。
-date: 2026-05-04
+date: 2025-05-04
 category: 设计
 tags:
   - workflow
   - rss
   - sitemap
 published: true
-cover: /blog/workflow-cover.svg
 ---
 
 # 内容工作流：文章、图库与静态生成
@@ -18,7 +17,7 @@ cover: /blog/workflow-cover.svg
 ## 为什么要统一模型
 
 :::tip
-当所有内容都共享 `title`、`description`、`date`、`category`、`cover/image` 这些基础字段时，列表页和输出管线会轻松很多。
+当所有内容都共享 `title`、`description`、`date`、`category`、`tags` 这些基础字段时，列表页和输出管线会轻松很多。
 :::
 
 - 列表页容易做分页

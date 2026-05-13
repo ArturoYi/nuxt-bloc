@@ -3,9 +3,22 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background: var(--header-bg);
-  backdrop-filter: blur(18px);
+  /* 半透明底 + 高阶 backdrop 模糊（与移动端全屏菜单的毛玻璃语言一致） */
+  background: color-mix(in srgb, var(--header-bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(175%) brightness(1.02);
+  backdrop-filter: blur(12px) saturate(175%) brightness(1.02);
   border-bottom: 1px solid var(--header-border);
+  /* 顶缘内高光：略抬「玻璃」质感，避免与底边 border 叠出双线 */
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header {
+    background: var(--header-bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
 }
 
 .site-header__inner {
@@ -19,44 +32,27 @@
 .site-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.875rem;
   min-width: 0;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.22s ease;
 }
 
-.site-brand__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 1rem;
-  background: linear-gradient(135deg, var(--brand), var(--brand-strong));
-  color: var(--text-inverse);
-  font-size: 0.8rem;
+.site-brand:hover {
+  color: var(--brand-strong);
+}
+
+.site-brand:focus-visible {
+  outline: 2px solid var(--brand-strong);
+  outline-offset: 3px;
+  border-radius: 0.2em;
+}
+
+.site-brand__name {
+  font-size: 1.125rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  box-shadow: var(--shadow-md);
-  flex-shrink: 0;
-}
-
-.site-brand__content {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.site-brand__title {
-  font-size: 1.02rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.site-brand__tagline {
-  color: var(--muted);
-  font-size: 0.8rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
 }
 
 .site-header__desktop-actions,
@@ -156,13 +152,6 @@
     min-height: 4.5rem;
   }
 
-  .site-brand__icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 0.9rem;
-  }
-
-  .site-brand__tagline,
   .site-header__desktop-actions {
     display: none;
   }
@@ -261,6 +250,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .site-brand,
   .site-nav__link,
   .theme-toggle,
   .menu-toggle,

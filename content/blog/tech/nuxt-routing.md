@@ -8,7 +8,6 @@ tags:
   - nuxt4
   - ssg
 published: true
-cover: /blog/routing-cover.svg
 ---
 
 # Nuxt 文件路由快速上手

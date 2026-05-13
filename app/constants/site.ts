@@ -10,7 +10,6 @@ export type SiteFooterLink = {
 }
 
 export const SITE_BRAND_NAME = 'Nuxt Demo'
-export const SITE_TAGLINE = 'Content-first static journal'
 export const SITE_DESCRIPTION = '基于 Nuxt 4、Nuxt Content 与 generate 的静态内容站点示例。'
 export const SITE_FOOTER_DESCRIPTION = SITE_DESCRIPTION
 export const SITE_HOME_INTRO = '你好，这里是Nuxt Demo'
