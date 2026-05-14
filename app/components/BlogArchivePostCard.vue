@@ -4,9 +4,6 @@ const props = defineProps<{
     path: string
     title: string
     date?: string | null
-    category?: string | null
-    description?: string | null
-    tags?: string[] | null
   }
 }>();
 

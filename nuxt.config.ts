@@ -15,10 +15,10 @@ export default defineNuxtConfig({
   ssr: true,
   pages: true,
 
-  modules: ['@nuxt/content', '@nuxtjs/mdc'],
+  modules: ['@vueuse/nuxt', '@nuxt/content', '@nuxtjs/mdc'],
 
-  // 通过单一入口聚合主题、基础、布局和内容样式，方便后续继续拆分。
-  css: ['~/assets/css/main.css', 'katex/dist/katex.min.css'],
+  // 全局仅注册主题变量与基础排版；布局与组件样式在对应 Vue 的 <style> 中。
+  css: ['~/assets/css/theme.css', '~/assets/css/base.css', 'katex/dist/katex.min.css'],
 
   app: {
     head: {
@@ -34,10 +34,8 @@ export default defineNuxtConfig({
         { property: 'og:site_name', content: SITE_BRAND_NAME },
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-        { rel: 'alternate icon', href: '/favicon.ico' },
-        { rel: 'apple-touch-icon', href: '/apple-touch-icon.svg' },
-        { rel: 'mask-icon', href: '/mask-icon.svg', color: '#646cff' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'apple-touch-icon', href: '/favicon.ico' },
         { rel: 'manifest', href: '/site.webmanifest' },
       ],
     },

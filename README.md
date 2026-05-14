@@ -23,35 +23,127 @@
 ```text
 .
 ├── app
-│   ├── app.vue                    # 应用入口，仅负责挂载布局与页面
-│   ├── assets/css                 # 全局样式入口、主题变量、布局与组件样式
+│   ├── app.vue
+│   ├── assets/css
+│   │   ├── main.css              # 全局样式唯一入口（按顺序 @import 其余层）
+│   │   ├── theme.css             # 明暗主题 CSS 变量
+│   │   ├── base.css              # 盒模型、页面与排版基础
+│   │   ├── layout.css            # 全站外壳、主区域等布局骨架
+│   │   └── layout/site-header.css
 │   ├── components
-│   │   ├── MediaAsset.vue         # 图片资源组件（骨架屏、灯箱预览）
-│   │   ├── PaginationNav.vue      # 通用分页组件
-│   │   ├── SiteFooter.vue         # 站点页脚
-│   │   ├── SiteHeader.vue         # 站点头部与导航
-│   │   └── SiteMain.vue           # 主内容容器
+│   │   ├── AppPageChrome.vue     # 顶栏阅读进度条、回到顶部等页面级装饰
+│   │   ├── ArtDotsBackground.vue # Canvas 点阵背景（随主题色变化）
+│   │   ├── BlogArchivePostCard.vue
+│   │   ├── MediaAsset.vue
+│   │   ├── PaginationNav.vue
+│   │   ├── SiteFooter.vue
+│   │   ├── SiteHeader.vue
+│   │   └── SiteMain.vue
 │   ├── composables
-│   │   ├── useSiteSeo.ts          # SEO 元信息封装
-│   │   └── useSiteTheme.ts        # 明暗主题与过渡动画
+│   │   ├── useNavProgress.ts
+│   │   ├── useSiteSeo.ts
+│   │   └── useSiteTheme.ts
 │   ├── constants
-│   │   └── site.ts                # 站点名称、导航、页脚等全局配置
+│   │   └── site.ts
 │   ├── layouts
-│   │   └── default.vue            # 默认站点布局，负责整体骨架与移动端菜单
-│   └── pages
-│       ├── index.vue              # 首页
-│       ├── notes.vue              # 笔记归档页
-│       ├── editor.vue             # Markdown 编辑器
-│       ├── blog/**                # 博客列表、分类、分页、详情
-│       └── gallery/**             # 照片墙列表、分类、分页、详情
-├── content                        # 博客、照片与首页说明内容
-├── packages/remark-callout-local  # 本地自定义 remark 插件
-├── public                         # 静态资源、图标、封面图、照片素材
-├── server/routes                  # RSS、Sitemap、Robots 等服务端输出
-├── utils/content.ts               # 内容查询辅助函数与分页工具
-├── nuxt.config.ts                 # Nuxt 配置、模块、样式入口、预渲染策略
-└── content.config.ts              # Nuxt Content 配置入口
+│   │   └── default.vue
+│   ├── pages
+│   │   ├── index.vue
+│   │   ├── notes.vue
+│   │   ├── editor.vue
+│   │   ├── blog/**
+│   │   └── gallery/**
+│   └── plugins
+│       └── page-chrome.client.ts
+├── content                       # Markdown 源：首页说明、博客、照片墙
+├── packages/remark-callout-local # 本地 remark 插件包
+├── public                        # 构建时原样复制的静态资源与图标
+├── server
+│   ├── routes                    # RSS、Sitemap、Robots 等 Nitro 路由
+│   └── tsconfig.json             # 服务端 TS 工程引用（继承 .nuxt）
+├── utils
+│   └── content.ts
+├── nuxt.config.ts
+├── content.config.ts
+├── tsconfig.json                 # Nuxt 推荐的工程引用入口
+└── package.json
 ```
+
+## 主要文件说明
+
+下列说明按目录归类，便于对照仓库根目录浏览。`content/` 下大量 `.md` 为文章与图库数据，此处不逐文件列举。
+
+### 根目录
+
+| 文件 | 作用 |
+| --- | --- |
+| `package.json` | 依赖声明与 `dev` / `build` / `generate` / `preview` 等脚本；`postinstall` 触发 `nuxt prepare`。 |
+| `package-lock.json` / `pnpm-lock.yaml` | 依赖锁文件（按你实际使用的包管理器保留其一或二者）。 |
+| `nuxt.config.ts` | Nuxt 主配置：模块、`css` 入口、全局 `head`、`runtimeConfig`、预渲染与 Markdown 处理链等。 |
+| `content.config.ts` | `@nuxt/content` 集合与 Zod schema，定义 frontmatter 字段与内容来源。 |
+| `tsconfig.json` | TypeScript 工程引用，指向 Nuxt 生成的 `tsconfig.app` / `server` / `shared` / `node`。 |
+| `.gitignore` | Git 忽略规则（如 `node_modules`、`.nuxt`、`.output` 等）。 |
+
+### `app/`
+
+| 文件 | 作用 |
+| --- | --- |
+| `app.vue` | 应用根组件，挂载 `NuxtLayout` 与 `NuxtPage`，保持入口轻量。 |
+| `assets/css/main.css` | 全局样式唯一入口，按「主题 → 基础 → 布局 → 页头」顺序 `@import` 各层。 |
+| `assets/css/theme.css` | 深色/浅色主题的 CSS 自定义属性（背景、文字、品牌色等）。 |
+| `assets/css/base.css` | 全局重置与基础排版（`box-sizing`、链接、代码块、可访问性等）。 |
+| `assets/css/layout.css` | 站点外壳（`site-shell`）、主内容区与和背景层的叠放关系。 |
+| `assets/css/layout/site-header.css` | 站点头部导航、移动端菜单等专用样式。 |
+| `components/AppPageChrome.vue` | 客户端页面装饰：路由切换时的顶部进度条、滚动超过阈值后的「回到顶部」。 |
+| `components/ArtDotsBackground.vue` | 全屏 Canvas 点阵动效背景，颜色从主题变量读取，可传 `density`。 |
+| `components/BlogArchivePostCard.vue` | 博客归档列表中的单篇文章卡片（标题、日期、摘要与链接）。 |
+| `components/MediaAsset.vue` | 图片展示：懒加载占位、灯箱预览等。 |
+| `components/PaginationNav.vue` | 博客与图库共用的分页控件。 |
+| `components/SiteHeader.vue` | 顶栏品牌、导航链接、主题切换等。 |
+| `components/SiteFooter.vue` | 页脚链接与版权信息。 |
+| `components/SiteMain.vue` | 主内容区域容器，与布局配合包裹页面主体。 |
+| `composables/useNavProgress.ts` | 用 `useState` 保存导航进度条进度与显隐，供插件与 `AppPageChrome` 共用。 |
+| `composables/useSiteSeo.ts` | 封装 `useSeoMeta` / `useHead` 等，统一标题、描述、OG 与 canonical。 |
+| `composables/useSiteTheme.ts` | 明暗主题切换、`localStorage` 持久化与切换过渡类名。 |
+| `constants/site.ts` | 站点名称、描述、导航项、页脚链接等集中配置。 |
+| `layouts/default.vue` | 默认全站布局：背景、Header / Main / Footer、移动端抽屉等。 |
+| `pages/index.vue` | 首页，通常渲染 `content/index.md`。 |
+| `pages/notes.vue` | 笔记或归档类列表页。 |
+| `pages/editor.vue` | 浏览器内 Markdown 编辑/预览实验页。 |
+| `pages/blog/index.vue` | 博客文章列表（可按分类等筛选）。 |
+| `pages/blog/page/[page].vue` | 博客列表分页路由。 |
+| `pages/blog/[...slug].vue` | 单篇博客详情，按 slug 匹配 `content/blog/**`。 |
+| `pages/gallery/index.vue` | 照片墙条目列表。 |
+| `pages/gallery/page/[page].vue` | 图库列表分页。 |
+| `pages/gallery/category/[category].vue` | 按分类筛选的图库列表。 |
+| `pages/gallery/[...slug].vue` | 单条图库内容详情。 |
+| `plugins/page-chrome.client.ts` | 仅在客户端：监听 `page:start` / `page:finish` / `app:error`，驱动 `useNavProgress` 与顶栏进度条。 |
+
+### `content/`
+
+| 路径 | 作用 |
+| --- | --- |
+| `index.md` | 首页展示的说明性 Markdown。 |
+| `blog/**` | 博客文章与分类目录；frontmatter 需符合 `content.config.ts` 中 schema。 |
+| `gallery/**` | 图库条目 Markdown 与元数据（拍摄地、设备等字段视 schema 而定）。 |
+
+### `server/`
+
+| 文件 | 作用 |
+| --- | --- |
+| `routes/rss.xml.ts` | 聚合已发布内容，输出 RSS 2.0 XML（博客与图库等条目）。 |
+| `routes/sitemap.xml.ts` | 生成站点地图 URL 列表，供搜索引擎抓取。 |
+| `routes/robots.txt.ts` | 输出 `robots.txt`，可声明 sitemap 位置与爬虫规则。 |
+| `tsconfig.json` | 服务端代码的 TS 配置，继承 `.nuxt/tsconfig.server.json`。 |
+
+### `utils/`、`packages/`、`public/`
+
+| 文件 / 目录 | 作用 |
+| --- | --- |
+| `utils/content.ts` | 内容查询辅助：分页、分类、`contentKind`、RSS/XML 转义等与页面和服务端路由共用。 |
+| `packages/remark-callout-local/` | 本地 npm 包：`index.mjs` 将 `:::tip` 等 directive 转为带 class 的 HTML 结构；由 `nuxt.config` 引入 remark 链。 |
+| `public/*` | 图标（`favicon.svg`、`apple-touch-icon.svg` 等）、默认 OG 图、图库用 SVG 等构建时静态文件。 |
+| `public/site.webmanifest` | PWA 清单（名称、图标等），供浏览器「安装」或书签使用。 |
 
 ## 当前项目大纲
 

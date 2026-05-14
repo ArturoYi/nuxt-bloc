@@ -8,20 +8,9 @@
   "theme_color": "#0b1020",
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "64x64",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "/apple-touch-icon.svg",
-      "sizes": "180x180",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "/mask-icon.svg",
-      "sizes": "128x128",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
     }
   ]
 }

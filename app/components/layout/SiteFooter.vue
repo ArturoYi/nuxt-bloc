@@ -32,3 +32,37 @@ defineProps<{
     </div>
   </footer>
 </template>
+
+<style>
+.site-footer {
+  padding: 2rem 0 3rem;
+  color: var(--muted);
+}
+
+.site-footer__inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.footer-title {
+  margin: 0 0 0.4rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 720px) {
+  .site-footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>

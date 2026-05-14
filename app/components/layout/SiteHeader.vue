@@ -1,14 +1,101 @@
-/* 顶部导航拆分为独立布局样式，便于单独维护桌面端与移动端交互。 */
+<script setup lang="ts">
+import type { SiteNavigationItem } from '~/constants/site'
+
+const props = defineProps<{
+  navigationItems: SiteNavigationItem[]
+  isDark: boolean
+  themeToggleLabel: string
+  isMobileMenuOpen: boolean
+}>()
+
+const emit = defineEmits<{
+  toggleTheme: [event: MouseEvent]
+  toggleMobileMenu: []
+}>()
+</script>
+
+<template>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <NuxtLink to="/" class="site-brand">
+        <span class="site-brand__name">Arlen</span>
+      </NuxtLink>
+
+      <div class="site-header__desktop-actions">
+        <nav class="site-nav site-nav--desktop" aria-label="主导航">
+          <NuxtLink
+            v-for="item in props.navigationItems"
+            :key="item.to"
+            :to="item.to"
+            class="site-nav__link"
+          >
+            {{ item.label }}
+          </NuxtLink>
+        </nav>
+
+        <button
+          type="button"
+          class="theme-toggle theme-toggle--desktop"
+          :aria-label="props.themeToggleLabel"
+          @click="emit('toggleTheme', $event)"
+        >
+          <span class="theme-toggle__icon" aria-hidden="true">
+            {{ props.isDark ? '☀' : '☾' }}
+          </span>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="menu-toggle"
+        aria-controls="site-header-mobile-menu"
+        :aria-expanded="props.isMobileMenuOpen"
+        :aria-label="props.isMobileMenuOpen ? '关闭导航菜单' : '打开导航菜单'"
+        @click="emit('toggleMobileMenu')"
+      >
+        <svg
+          v-if="!props.isMobileMenuOpen"
+          class="menu-toggle__icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="M4 7h16" />
+          <path d="M4 12h16" />
+          <path d="M4 17h16" />
+        </svg>
+        <svg
+          v-else
+          class="menu-toggle__icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12" />
+          <path d="M18 6L6 18" />
+        </svg>
+      </button>
+    </div>
+  </header>
+</template>
+
+<style>
 .site-header {
   position: sticky;
   top: 0;
   z-index: 40;
-  /* 半透明底 + 高阶 backdrop 模糊（与移动端全屏菜单的毛玻璃语言一致） */
   background: color-mix(in srgb, var(--header-bg) 82%, transparent);
   -webkit-backdrop-filter: blur(8px) saturate(175%) brightness(1.02);
   backdrop-filter: blur(12px) saturate(175%) brightness(1.02);
   border-bottom: 1px solid var(--header-border);
-  /* 顶缘内高光：略抬「玻璃」质感，避免与底边 border 叠出双线 */
   box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
 }
 
@@ -27,6 +114,8 @@
   justify-content: space-between;
   min-height: 5rem;
   gap: 1rem;
+  width: 100%;
+  padding: 0 2rem;
 }
 
 .site-brand {
@@ -124,10 +213,6 @@
   line-height: 1;
 }
 
-.theme-toggle__label {
-  display: none;
-}
-
 .menu-toggle {
   display: none;
   width: 2.75rem;
@@ -159,91 +244,9 @@
   .menu-toggle {
     display: inline-flex;
   }
-
-  .site-nav--mobile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.25rem;
-    width: 100%;
-    min-height: 100dvh;
-  }
-
-  .site-mobile-menu-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 39;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    overscroll-behavior: contain;
-    touch-action: none;
-    background: color-mix(in srgb, var(--overlay-strong) 56%, transparent);
-    -webkit-backdrop-filter: blur(32px) saturate(150%);
-    backdrop-filter: blur(32px) saturate(150%);
-  }
-
-  .site-nav--mobile .site-nav__link,
-  .theme-toggle--mobile {
-    width: auto;
-    min-height: auto;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    text-align: center;
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    line-height: 1.15;
-    color: var(--text);
-    font-weight: 700;
-  }
-
-  .theme-toggle--mobile {
-    margin-top: 0.4rem;
-  }
-
-  .theme-toggle--mobile .theme-toggle__icon {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-  }
-
-  [data-theme="light"] .site-mobile-menu-overlay {
-    background: rgba(255, 255, 255, 0.82);
-    -webkit-backdrop-filter: blur(40px) saturate(160%);
-    backdrop-filter: blur(40px) saturate(160%);
-  }
-
-  [data-theme="light"] .site-nav--mobile .site-nav__link,
-  [data-theme="light"] .theme-toggle--mobile {
-    color: #111827;
-  }
-
-  .site-mobile-overlay-enter-active,
-  .site-mobile-overlay-leave-active {
-    transition: opacity 0.24s ease;
-  }
-
-  .site-mobile-overlay-enter-active .site-nav--mobile,
-  .site-mobile-overlay-leave-active .site-nav--mobile {
-    transition:
-      opacity 0.24s ease,
-      transform 0.24s ease;
-  }
-
-  .site-mobile-overlay-enter-from,
-  .site-mobile-overlay-leave-to {
-    opacity: 0;
-  }
-
-  .site-mobile-overlay-enter-from .site-nav--mobile,
-  .site-mobile-overlay-leave-to .site-nav--mobile {
-    opacity: 0;
-    transform: translateY(-0.75rem);
-  }
 }
 
 @media (min-width: 768px) {
-  .site-mobile-menu-overlay,
   .menu-toggle {
     display: none !important;
   }
@@ -253,11 +256,8 @@
   .site-brand,
   .site-nav__link,
   .theme-toggle,
-  .menu-toggle,
-  .site-mobile-overlay-enter-active,
-  .site-mobile-overlay-leave-active,
-  .site-mobile-overlay-enter-active .site-nav--mobile,
-  .site-mobile-overlay-leave-active .site-nav--mobile {
+  .menu-toggle {
     transition: none;
   }
 }
+</style>

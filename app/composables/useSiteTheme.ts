@@ -101,7 +101,6 @@ export function useSiteTheme() {
   }
 
   return {
-    theme,
     isDark,
     themeToggleLabel,
     toggleTheme,

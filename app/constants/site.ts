@@ -16,7 +16,6 @@ export const SITE_HOME_INTRO = '你好，这里是Nuxt Demo'
 
 export const siteNavigationItems: SiteNavigationItem[] = [
   { to: '/blog', label: '博客' },
-  { to: '/notes', label: '笔记' },
   { to: '/gallery', label: '照片' },
   { to: '/editor', label: '编辑器' },
 ]
