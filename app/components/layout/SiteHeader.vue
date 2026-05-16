@@ -16,7 +16,7 @@ const emit = defineEmits<{
 
 <template>
   <header class="site-header">
-    <div class="site-header__inner">
+    <div class="site-header__inner container">
       <NuxtLink to="/" class="site-brand">
         <span class="site-brand__name">Arlen</span>
       </NuxtLink>
@@ -89,9 +89,9 @@ const emit = defineEmits<{
 
 <style>
 .site-header {
-  position: sticky;
   top: 0;
   z-index: 40;
+  width: 100%;
   background: color-mix(in srgb, var(--header-bg) 82%, transparent);
   -webkit-backdrop-filter: blur(8px) saturate(175%) brightness(1.02);
   backdrop-filter: blur(12px) saturate(175%) brightness(1.02);
@@ -114,7 +114,6 @@ const emit = defineEmits<{
   justify-content: space-between;
   min-height: 5rem;
   gap: 1rem;
-  width: 100%;
   padding: 0 2rem;
 }
 

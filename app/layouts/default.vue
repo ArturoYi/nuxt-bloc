@@ -4,31 +4,26 @@ import {
   SITE_FOOTER_DESCRIPTION,
   siteFooterLinks,
   siteNavigationItems,
-} from '~/constants/site'
-
-const route = useRoute()
-const { isDark, themeToggleLabel, toggleTheme } = useSiteTheme()
-
-const isMobileMenuOpen = ref(false)
-
+} from "~/constants/site";
+const route = useRoute();
+const showFooter = computed(() => route.meta.showFooter === true);
+const { isDark, themeToggleLabel, toggleTheme } = useSiteTheme();
+const isMobileMenuOpen = ref(false);
 const closeMobileMenu = () => {
-  isMobileMenuOpen.value = false
-}
-
+  isMobileMenuOpen.value = false;
+};
 const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value
-}
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+watch(() => route.fullPath, closeMobileMenu);
 
-watch(() => route.fullPath, closeMobileMenu)
-
-const { md } = useBreakpoints()
+const { md } = useBreakpoints();
 
 watch(md, (matches) => {
-  if (matches)
-    closeMobileMenu()
-})
+  if (matches) closeMobileMenu();
+});
 
-onKeyStroke('Escape', closeMobileMenu)
+onKeyStroke("Escape", closeMobileMenu);
 </script>
 
 <template>
@@ -44,7 +39,6 @@ onKeyStroke('Escape', closeMobileMenu)
         @toggle-theme="toggleTheme"
         @toggle-mobile-menu="toggleMobileMenu"
       />
-
       <Transition name="site-mobile-overlay">
         <div
           v-if="isMobileMenuOpen"
@@ -70,18 +64,18 @@ onKeyStroke('Escape', closeMobileMenu)
               @click="toggleTheme($event)"
             >
               <span class="theme-toggle__icon" aria-hidden="true">
-                {{ isDark ? '☀' : '☾' }}
+                {{ isDark ? "☀" : "☾" }}
               </span>
             </button>
           </nav>
         </div>
       </Transition>
-
       <main class="site-main">
         <slot />
       </main>
 
       <LayoutSiteFooter
+        v-if="showFooter"
         :title="SITE_BRAND_NAME"
         :description="SITE_FOOTER_DESCRIPTION"
         :links="siteFooterLinks"
@@ -108,7 +102,6 @@ onKeyStroke('Escape', closeMobileMenu)
 
 .site-main {
   flex: 1;
-  padding: 2.25rem 0 4rem;
 }
 
 @media (max-width: 767.98px) {

@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  showFooter: true,
+});
+
 import { uniqueCategories } from "~~/utils/content";
 
 function timestampFromContentDate(date?: string | null) {
@@ -287,14 +291,14 @@ const navCanScrollRight = computed(() => navScrollOverflow.value.right);
   width: max-content;
   min-width: 100%;
   margin-inline: auto;
-  padding-block: 0.2rem;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .blog-archive-nav__link {
   flex: 0 0 auto;
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 2rem;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   color: var(--text);
   opacity: 0.7;

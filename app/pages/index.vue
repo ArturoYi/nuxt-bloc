@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  showFooter: true,
+})
+
 import { SITE_BRAND_NAME, SITE_HOME_INTRO } from '~/constants/site'
 
 useSiteSeo({

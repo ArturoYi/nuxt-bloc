@@ -1,5 +1,6 @@
 import { SITE_BRAND_NAME, SITE_DESCRIPTION } from './app/constants/site'
 
+
 // Nuxt 配置入口，集中定义全局模块、样式和静态生成行为。
 const env = (
   globalThis as typeof globalThis & {
@@ -17,8 +18,13 @@ export default defineNuxtConfig({
 
   modules: ['@vueuse/nuxt', '@nuxt/content', '@nuxtjs/mdc'],
 
-  // 全局仅注册主题变量与基础排版；布局与组件样式在对应 Vue 的 <style> 中。
-  css: ['~/assets/css/theme.css', '~/assets/css/base.css', 'katex/dist/katex.min.css'],
+  // 全局注册主题、基础排版与布局骨架（layout.css）；业务与头部/页脚样式仍在各 Vue 的 <style> 中。
+  css: [
+    '~/assets/css/theme.css',
+    '~/assets/css/base.css',
+    '~/assets/css/layout.css',
+    'katex/dist/katex.min.css',
+  ],
 
   app: {
     head: {
@@ -82,9 +88,11 @@ export default defineNuxtConfig({
         },
         remarkPlugins: {
           'remark-gfm': {},
+          'remark-flexible-markers': {},
           'remark-directive': {},
           'remark-math': {},
           'remark-callout-local': {},
+          'remark-code-group-compat': {},
         },
         rehypePlugins: {
           'rehype-slug': {},
@@ -96,7 +104,6 @@ export default defineNuxtConfig({
             default: 'github-light',
             dark: 'github-dark',
           },
-          langs: ['js', 'ts', 'vue', 'bash', 'json', 'md'],
         },
       },
     },
@@ -112,9 +119,11 @@ export default defineNuxtConfig({
   mdc: {
     remarkPlugins: {
       'remark-gfm': {},
+      'remark-flexible-markers': {},
       'remark-directive': {},
       'remark-math': {},
       'remark-callout-local': {},
+      'remark-code-group-compat': {},
     },
     rehypePlugins: {
       'rehype-slug': {},

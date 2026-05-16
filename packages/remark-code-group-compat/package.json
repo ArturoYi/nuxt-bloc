@@ -1,0 +1,9 @@
+{
+  "name": "remark-code-group-compat",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.mjs",
+  "dependencies": {
+    "unist-util-visit": "^5.1.0"
+  }
+}

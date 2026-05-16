@@ -3,7 +3,7 @@
   color-scheme: dark;
   --bg: #0b1020;
   --border: rgba(148, 163, 184, 0.16);
-  --text: #e5e7eb;
+  --text: #dfdfd6;
   --muted: #94a3b8;
   --muted-strong: #cbd5e1;
   --brand-rgb: 100, 108, 255;
@@ -18,6 +18,19 @@
   --art-dots-rgb: 148, 163, 184;
   --art-dots-accent-rgb: 129, 140, 248;
   --overlay-strong: rgba(2, 6, 23, 0.84);
+  --drawer-bg: rgba(11, 16, 32, 0.98);
+  --drawer-border: rgba(148, 163, 184, 0.14);
+  --scrollbar-thumb: color-mix(in srgb, var(--muted) 36%, transparent);
+  --scrollbar-thumb-hover: color-mix(in srgb, var(--muted) 52%, transparent);
+
+  /* Code Blocks */
+  --code-bg: #161618;
+  --code-header-bg: #1e1e20;
+  --code-border: var(--border);
+  --code-lang-text: var(--muted);
+  --code-copy-btn-bg: rgba(255, 255, 255, 0.05);
+  --code-copy-btn-hover-bg: rgba(255, 255, 255, 0.1);
+  --code-line-highlight-bg: rgba(100, 108, 255, 0.15);
 }
 
 /* 浅色主题只覆盖需要变化的设计令牌。 */
@@ -25,7 +38,7 @@
   color-scheme: light;
   --bg: #f6f7fb;
   --border: rgba(15, 23, 42, 0.08);
-  --text: #1f2937;
+  --text: #3c3c43;
   --muted: #64748b;
   --muted-strong: #475569;
   --brand-rgb: 100, 108, 255;
@@ -40,4 +53,14 @@
   --art-dots-rgb: 71, 85, 105;
   --art-dots-accent-rgb: 99, 102, 241;
   --overlay-strong: rgba(15, 23, 42, 0.88);
+  --drawer-bg: rgba(235, 238, 245, 0.98);
+  --drawer-border: rgba(15, 23, 42, 0.1);
+
+  /* Code Blocks Light */
+  --code-bg: #f9f9fb;
+  --code-header-bg: #f1f2f6;
+  --code-lang-text: var(--muted);
+  --code-copy-btn-bg: rgba(0, 0, 0, 0.05);
+  --code-copy-btn-hover-bg: rgba(0, 0, 0, 0.08);
+  --code-line-highlight-bg: rgba(100, 108, 255, 0.1);
 }

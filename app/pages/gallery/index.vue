@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  showFooter: true,
+})
+
 useSiteSeo({
   title: '照片墙',
   description: '照片墙页面。',

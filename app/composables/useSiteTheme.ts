@@ -78,11 +78,20 @@ export function useSiteTheme() {
   useHead(() => ({
     htmlAttrs: {
       'data-theme': theme.value,
+      class: isDark.value ? 'dark' : '',
     },
     meta: [
       {
         name: 'theme-color',
         content: isDark.value ? '#0b1020' : '#f6f7fb',
+      },
+    ],
+    link: [
+      {
+        rel: 'stylesheet',
+        href: isDark.value
+          ? '/css/github-markdown-dark.min.css'
+          : '/css/github-markdown-light.min.css',
       },
     ],
   }))

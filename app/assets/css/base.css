@@ -13,37 +13,13 @@ html {
   scroll-behavior: smooth;
   background: var(--bg);
   overflow-y: auto;
-  scrollbar-gutter: stable;
-  /* Firefox：极淡滚动条 */
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--muted) 14%, transparent) transparent;
-}
-
-html::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
-}
-
-html::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-html::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background-color: color-mix(in srgb, var(--muted) 12%, transparent);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-
-html::-webkit-scrollbar-thumb:hover {
-  background-color: color-mix(in srgb, var(--muted) 22%, transparent);
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 
-  "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", 
-  "WenQuanYi Micro Hei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "WenQuanYi Micro Hei", sans-serif;
   color: var(--text);
   background: var(--bg);
 }
@@ -70,91 +46,81 @@ textarea {
     "Liberation Mono", "Courier New", monospace;
 }
 
-/* 通用容器宽度，供布局和内容模块复用。 */
-.container {
-  width: min(1180px, calc(100% - 2rem));
-  margin: 0 auto;
+/* —— 统一滚动条：悬浮、6×3、静止透明 / 滚动或 hover 显示 —— */
+.scroll-reveal {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
 }
 
+.scroll-reveal.is-scrollbar-active,
+.scroll-reveal:hover {
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+.scroll-reveal::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scroll-reveal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-reveal::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.scroll-reveal.is-scrollbar-active::-webkit-scrollbar-thumb,
+.scroll-reveal:hover::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+}
+
+.scroll-reveal.is-scrollbar-active::-webkit-scrollbar-thumb:hover,
+.scroll-reveal:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal::-webkit-scrollbar-thumb {
+    transition: none;
+  }
+}
+
+/* 禁止默认过渡，保持图层纯净 */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
+/* 仅保留原有圆形扩散动画，无多余属性 */
 ::view-transition-new(root) {
   animation: theme-circle-reveal 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* 精简规整写法，变量对齐，无多余动画属性 */
 @keyframes theme-circle-reveal {
   from {
     clip-path: circle(0 at var(--theme-transition-x, 50vw) var(--theme-transition-y, 50vh));
   }
 
   to {
-    clip-path: circle(
-      var(--theme-transition-radius, 150vmax) at var(--theme-transition-x, 50vw)
-        var(--theme-transition-y, 50vh)
-    );
+    clip-path: circle(var(--theme-transition-radius, 150vmax) at var(--theme-transition-x, 50vw) var(--theme-transition-y, 50vh));
   }
 }
 
-/* 归档列表文章标题：中等字重 + 略松行高；整行链接时标题与日期用子元素透明度区分。 */
-.archive-card__title {
-  margin: 0;
-  font-size: 1.0625rem;
-  font-weight: 500;
-  line-height: 1.65;
-  letter-spacing: 0.01em;
-}
-
-.archive-card__title-link {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.65rem;
-  width: 100%;
-  max-width: 100%;
-  color: var(--text);
-  text-decoration: none;
-  transition: color 0.18s ease;
-}
-
-.archive-card__title-text {
-  opacity: 0.65;
-  transition: opacity 0.18s ease;
-}
-
-.archive-card__title-link:hover .archive-card__title-text,
-.archive-card__title-link:focus-visible .archive-card__title-text {
-  opacity: 1;
-}
-
-.archive-card__date {
-  flex: none;
-  font-size: 0.8125rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: var(--text);
-  opacity: 0.42;
-  transition: opacity 0.18s ease;
-}
-
-.archive-card__title-link:hover .archive-card__date,
-.archive-card__title-link:focus-visible .archive-card__date {
-  opacity: 0.62;
-}
-
-.archive-card__title-link:focus-visible {
-  outline: 2px solid var(--brand);
-  outline-offset: 3px;
-  border-radius: 0.2em;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .archive-card__title-link,
-  .archive-card__title-text,
-  .archive-card__date {
-    transition: none;
-  }
+/* ================== VitePress 原版代码块样式 ================== */
+/* 外层容器 */
+.prose pre {
+  background-color: #2b2b2b !important;
+  color: #e6e6e6 !important;
+  border-radius: 8px !important;
+  margin: 16px 0 !important;
+  padding: 16px !important;
+  overflow-x: auto !important;
+  line-height: 1.7 !important;
+  font-size: 14px !important;
+  border: none !important;
 }

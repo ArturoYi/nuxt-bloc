@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <footer class="site-footer">
-    <div class="container site-footer__inner">
+    <div class="site-footer__inner container">
       <div>
         <p class="footer-title">
           {{ title }}
@@ -35,8 +35,10 @@ defineProps<{
 
 <style>
 .site-footer {
-  padding: 2rem 0 3rem;
+  padding: 1.25rem 0 1.25rem;
   color: var(--muted);
+  margin-top: 0 auto;
+  border-top: 1px solid var(--border);
 }
 
 .site-footer__inner {
@@ -44,7 +46,6 @@ defineProps<{
   justify-content: space-between;
   gap: 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid var(--border);
 }
 
 .footer-title {
