@@ -50,7 +50,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      siteUrl: env.NUXT_PUBLIC_SITE_URL || 'https://example.com',
+      siteUrl: 'https://chenyiren.top',
       siteTitle: SITE_BRAND_NAME,
       siteDescription: SITE_DESCRIPTION,
       defaultOgImage: '/og-default.svg',
@@ -59,7 +59,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'static',
+    preset: 'cloudflare-pages',
     prerender: {
       crawlLinks: true,
       routes: ['/', '/blog', '/gallery', '/editor', '/rss.xml', '/sitemap.xml', '/robots.txt'],
