@@ -1,29 +1,40 @@
 /* 站点三栏布局：仅结构与响应式，不含业务主题样式。 */
 :root {
-  --layout-max-w: 1280px;
-  --layout-padding: 20px;
-  --sidebar-w: 280px;
-  --outline-w: 240px;
-  --layout-gap: 24px;
+  --layout-max-w: 80rem;
+  --layout-padding: 1.25rem;
+  --sidebar-w: 17.5rem;
+  --outline-w: 15rem;
+  --layout-gap: 1.5rem;
   --layout-drawer-z: 45;
   --layout-scrim-z: 44;
-  --banner-w: 1480px;
-  --layout-toolbar-h: 50px;
+  --banner-w: 92.5rem;
+  --layout-toolbar-h: 3.125rem;
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --layout-padding: 0.875rem;
+    --layout-gap: 1rem;
+    --layout-toolbar-h: 2.875rem;
+  }
 }
 
 /* 通用容器宽度，供布局和内容模块复用。 */
 .container {
-  width: min(var(--banner-w), calc(100% - 1rem));
-  margin: 0 auto;
+  width: 100%;
+  max-width: var(--banner-w);
+  margin-inline: auto;
 }
 
 .layout-wrap {
   display: flex;
   align-items: flex-start;
-  width: min(var(--banner-w), calc(100% - 1rem));
-  padding: 0 var(--layout-padding) var(--layout-padding) var(--layout-padding);
-  margin: 0 auto;
+  width: 100%;
+  max-width: var(--banner-w);
+  padding: 0 var(--layout-padding) var(--layout-padding);
+  margin-inline: auto;
   gap: var(--layout-gap);
+  overflow-x: hidden;
 }
 
 .layout-content-box {
@@ -328,6 +339,10 @@
 @media (max-width: 767.98px) {
   .layout-sidebar {
     display: none;
+  }
+
+  .layout-wrap {
+    padding-bottom: 0.75rem;
   }
 }
 

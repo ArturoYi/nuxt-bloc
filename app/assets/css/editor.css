@@ -28,9 +28,10 @@
   flex-direction: column;
   min-height: 0;
   width: 100%;
-  max-width: none;
+  max-width: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 .editor-workspace {
@@ -336,6 +337,16 @@
   .editor-pane--source {
     border-right: 0;
     border-bottom: 1px solid var(--border);
+  }
+
+  .editor-pane__input,
+  .editor-pane__body {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .editor-pane__body :is(img, table, pre) {
+    max-width: 100%;
   }
 }
 

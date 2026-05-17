@@ -12,7 +12,7 @@ export type SiteFooterLink = {
 export const SITE_BRAND_NAME = 'Arlen'
 export const SITE_DESCRIPTION = ''
 export const SITE_FOOTER_DESCRIPTION = SITE_DESCRIPTION
-export const SITE_HOME_INTRO = '我是一名前端开发者，喜欢研究技术，喜欢分享知识，喜欢探索未知。'
+export const SITE_HOME_INTRO = '我是一名前端开发者，喜欢研究技术，喜欢记录，喜欢探索未知。 \n 这里是我的一些思考和总结。'
 
 export const siteNavigationItems: SiteNavigationItem[] = [
   { to: '/blog', label: '博客' },

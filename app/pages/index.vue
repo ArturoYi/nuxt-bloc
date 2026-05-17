@@ -34,4 +34,8 @@ useSiteSeo({
   align-items: center;
   justify-content: center;
 }
+
+.intro-hero__lead {
+  white-space: pre-line;
+}
 </style>

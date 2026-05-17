@@ -1,8 +1,9 @@
 /* VitePress-style custom containers & GitHub alerts */
 .markdown-body .custom-block {
-  margin: 16px 0;
-  padding: 16px 16px 8px;
-  border-radius: 8px;
+  margin: 1rem 0;
+  padding: 1rem 1rem 0.5rem;
+  max-width: 100%;
+  border-radius: 0.5rem;
   border: 1px solid var(--custom-block-border);
   background: var(--custom-block-bg);
   line-height: 1.7;
@@ -13,23 +14,23 @@
 }
 
 .markdown-body .custom-block > :last-child {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .markdown-body .custom-block-title {
-  margin: 0 0 8px;
+  margin: 0 0 0.5rem;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.02em;
 }
 
 .markdown-body .custom-block.details {
-  padding: 0 16px;
+  padding: 0 1rem;
 }
 
 .markdown-body .custom-block.details > summary {
-  margin: 0 -16px;
-  padding: 16px 16px 8px;
+  margin: 0 -1rem;
+  padding: 1rem 1rem 0.5rem;
   cursor: pointer;
   font-weight: 600;
   list-style: none;
@@ -59,7 +60,23 @@
 
 .markdown-body .custom-block.details[open] > summary {
   border-bottom: 1px solid var(--custom-block-border);
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .markdown-body .custom-block {
+    margin: 0.75rem 0;
+    padding: 0.875rem 0.875rem 0.5rem;
+  }
+
+  .markdown-body .custom-block.details {
+    padding: 0 0.875rem;
+  }
+
+  .markdown-body .custom-block.details > summary {
+    margin: 0 -0.875rem;
+    padding: 0.875rem 0.875rem 0.5rem;
+  }
 }
 
 .markdown-body .custom-block.tip {
