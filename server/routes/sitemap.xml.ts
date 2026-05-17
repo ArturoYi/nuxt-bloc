@@ -1,3 +1,4 @@
+import { queryCollection } from '#imports'
 import { BLOG_PAGE_SIZE, GALLERY_PAGE_SIZE, isBlogPath, isGalleryPath } from '~~/utils/content'
 
 export default eventHandler(async (event) => {

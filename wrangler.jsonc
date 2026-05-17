@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "nuxt-bloc",
+  "compatibility_date": "2025-07-15",
+  // 仅发布 Nuxt static 构建产物，不部署 Workers SSR 入口
+  "assets": {
+    "directory": ".output/public",
+    "not_found_handling": "404-page"
+  }
+}

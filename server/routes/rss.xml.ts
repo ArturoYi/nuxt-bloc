@@ -1,3 +1,4 @@
+import { queryCollection } from '#imports'
 import { contentKind, xmlEscape } from '~~/utils/content'
 
 export default eventHandler(async (event) => {

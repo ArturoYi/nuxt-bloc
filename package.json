@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "NITRO_PRESET=static nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -30,6 +30,7 @@
     "vue-router": "^5.0.6"
   },
   "devDependencies": {
-    "@vueuse/nuxt": "^14.3.0"
+    "@vueuse/nuxt": "^14.3.0",
+    "wrangler": "^4.92.0"
   }
 }
