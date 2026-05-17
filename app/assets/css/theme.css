@@ -31,6 +31,17 @@
   --code-copy-btn-bg: rgba(255, 255, 255, 0.05);
   --code-copy-btn-hover-bg: rgba(255, 255, 255, 0.1);
   --code-line-highlight-bg: rgba(100, 108, 255, 0.15);
+
+  /* Editor */
+  --editor-workspace-bg: color-mix(in srgb, var(--surface-raised) 72%, transparent);
+  --editor-pane-bg: color-mix(in srgb, var(--bg) 82%, var(--surface-raised));
+  --editor-input-bg: rgba(15, 23, 42, 0.42);
+  --editor-pane-header-bg: color-mix(in srgb, var(--surface-raised) 48%, transparent);
+  --editor-accent-glow: rgba(var(--brand-rgb), 0.14);
+
+  /* Custom blocks (VitePress-style) */
+  --custom-block-border: rgba(148, 163, 184, 0.22);
+  --custom-block-bg: rgba(30, 41, 59, 0.45);
 }
 
 /* 浅色主题只覆盖需要变化的设计令牌。 */
@@ -63,4 +74,15 @@
   --code-copy-btn-bg: rgba(0, 0, 0, 0.05);
   --code-copy-btn-hover-bg: rgba(0, 0, 0, 0.08);
   --code-line-highlight-bg: rgba(100, 108, 255, 0.1);
+
+  /* Editor */
+  --editor-workspace-bg: color-mix(in srgb, var(--surface-raised) 88%, transparent);
+  --editor-pane-bg: color-mix(in srgb, #fff 92%, var(--bg));
+  --editor-input-bg: rgba(255, 255, 255, 0.72);
+  --editor-pane-header-bg: color-mix(in srgb, var(--surface-raised) 65%, transparent);
+  --editor-accent-glow: rgba(var(--brand-rgb), 0.1);
+
+  /* Custom blocks (VitePress-style) */
+  --custom-block-border: rgba(15, 23, 42, 0.1);
+  --custom-block-bg: rgba(255, 255, 255, 0.72);
 }

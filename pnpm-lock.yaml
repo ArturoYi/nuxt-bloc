@@ -14,6 +14,9 @@ importers:
       '@nuxtjs/mdc':
         specifier: ^0.21.1
         version: 0.21.1(magicast@0.5.2)
+      '@shikijs/transformers':
+        specifier: ^4.0.2
+        version: 4.0.2
       katex:
         specifier: ^0.16.45
         version: 0.16.45
@@ -32,9 +35,18 @@ importers:
       remark-callout-local:
         specifier: file:packages/remark-callout-local
         version: file:packages/remark-callout-local
+      remark-code-group-compat:
+        specifier: file:packages/remark-code-group-compat
+        version: file:packages/remark-code-group-compat
+      remark-container-compat:
+        specifier: file:packages/remark-container-compat
+        version: file:packages/remark-container-compat
       remark-directive:
         specifier: ^4.0.0
         version: 4.0.0
+      remark-flexible-markers:
+        specifier: ^1.3.4
+        version: 1.3.4(unified@11.0.5)
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1
@@ -3509,12 +3521,23 @@ packages:
   remark-callout-local@file:packages/remark-callout-local:
     resolution: {directory: packages/remark-callout-local, type: directory}
 
+  remark-code-group-compat@file:packages/remark-code-group-compat:
+    resolution: {directory: packages/remark-code-group-compat, type: directory}
+
+  remark-container-compat@file:packages/remark-container-compat:
+    resolution: {directory: packages/remark-container-compat, type: directory}
+
   remark-directive@4.0.0:
     resolution: {integrity: sha512-7sxn4RfF1o3izevPV1DheyGDD6X4c9hrGpfdUpm7uC++dqrnJxIZVkk7CoKqcLm0VUMAuOol7Mno3m6g8cfMuA==}
 
   remark-emoji@5.0.2:
     resolution: {integrity: sha512-IyIqGELcyK5AVdLFafoiNww+Eaw/F+rGrNSXoKucjo95uL267zrddgxGM83GN1wFIb68pyDuAsY3m5t2Cav1pQ==}
     engines: {node: '>=18'}
+
+  remark-flexible-markers@1.3.4:
+    resolution: {integrity: sha512-YDj9TSoDrmu4f76i3n62clewkGnFEFV1fwqwosyrU28AGPeB/NxJUYCen5D3P7rQaxgy4h5s/FEQEMkSgVEGnQ==}
+    peerDependencies:
+      unified: ^11
 
   remark-gfm@4.0.1:
     resolution: {integrity: sha512-1quofZ2RQ9EWdeN34S79+KExV1764+wCUGop5CPL1WGdD0ocPpu91lzPGbwWMECpEpd42kJGQwzRfyov9j4yNg==}
@@ -3920,6 +3943,15 @@ packages:
 
   unist-util-find-after@5.0.0:
     resolution: {integrity: sha512-amQa0Ep2m6hE2g72AugUItjbuM8X8cGQnFoHk0pGfrFeT9GZhzN5SW8nRsiGKK7Aif4CrACPENkA6P/Lw6fHGQ==}
+
+  unist-util-find-all-after@5.0.0:
+    resolution: {integrity: sha512-nGmOYvTSdGcI4RvrUNfe0mOsqqbbJOtqCQsppsY9KZjmv3nwM3YRgNBwFPdZ8Y+iv9Z/2PDjR9u6u+uK62XTTg==}
+
+  unist-util-find-all-before@5.0.0:
+    resolution: {integrity: sha512-zir6a7GsXfdn4YAWR4F3hLNKZjTjLBJurdyquysvmX38xbftS1+qwvEhutxxHLq0Pp1tW5V1TDiuj+qluuOnKw==}
+
+  unist-util-find-between@1.2.1:
+    resolution: {integrity: sha512-40W6SCvWk8MO+OyAzM1Ap6nKawyM7klSapiKGZQAgyZNbyIFibKAjMk+fct9nC6GcIPRfthBh6udKYrggjnGhQ==}
 
   unist-util-is@6.0.1:
     resolution: {integrity: sha512-LsiILbtBETkDz8I9p1dQ0uyRUWuaQzd/cuEeS1hoRSyW5E5XGmTzlwY1OrNzzakGowI9Dr/I8HVaw4hTtnxy8g==}
@@ -8350,6 +8382,17 @@ snapshots:
 
   remark-callout-local@file:packages/remark-callout-local: {}
 
+  remark-code-group-compat@file:packages/remark-code-group-compat:
+    dependencies:
+      unist-util-visit: 5.1.0
+
+  remark-container-compat@file:packages/remark-container-compat:
+    dependencies:
+      remark-parse: 11.0.0
+      unified: 11.0.5
+    transitivePeerDependencies:
+      - supports-color
+
   remark-directive@4.0.0:
     dependencies:
       '@types/mdast': 4.0.4
@@ -8366,6 +8409,17 @@ snapshots:
       mdast-util-find-and-replace: 3.0.2
       node-emoji: 2.2.0
       unified: 11.0.5
+
+  remark-flexible-markers@1.3.4(unified@11.0.5):
+    dependencies:
+      '@types/mdast': 4.0.4
+      unified: 11.0.5
+      unist-builder: 4.0.0
+      unist-util-find-after: 5.0.0
+      unist-util-find-all-after: 5.0.0
+      unist-util-find-all-before: 5.0.0
+      unist-util-find-between: 1.2.1
+      unist-util-visit: 5.1.0
 
   remark-gfm@4.0.1:
     dependencies:
@@ -8882,6 +8936,21 @@ snapshots:
       '@types/unist': 3.0.3
 
   unist-util-find-after@5.0.0:
+    dependencies:
+      '@types/unist': 3.0.3
+      unist-util-is: 6.0.1
+
+  unist-util-find-all-after@5.0.0:
+    dependencies:
+      '@types/unist': 3.0.3
+      unist-util-is: 6.0.1
+
+  unist-util-find-all-before@5.0.0:
+    dependencies:
+      '@types/unist': 3.0.3
+      unist-util-is: 6.0.1
+
+  unist-util-find-between@1.2.1:
     dependencies:
       '@types/unist': 3.0.3
       unist-util-is: 6.0.1

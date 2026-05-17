@@ -1,18 +1,18 @@
-import { defineMdcConfig } from '@nuxtjs/mdc/config'
-import { 
-  transformerNotationDiff, 
-  transformerNotationFocus, 
-  transformerNotationHighlight, 
-  transformerNotationErrorLevel 
-} from '@shikijs/transformers'
+import { defineConfig } from "@nuxtjs/mdc/config";
+import {
+  transformerNotationDiff,
+  transformerNotationFocus,
+  transformerNotationHighlight,
+  transformerNotationErrorLevel,
+} from "@shikijs/transformers";
 
-export default defineMdcConfig({
+export default defineConfig({
   shiki: {
     transformers: [
       transformerNotationFocus(),
       transformerNotationDiff(),
       transformerNotationHighlight(),
       transformerNotationErrorLevel(),
-    ]
-  }
-})
+    ],
+  },
+});

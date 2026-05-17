@@ -1,0 +1,12 @@
+{
+  "name": "remark-container-compat",
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "dependencies": {
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.0"
+  }
+}

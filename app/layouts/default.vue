@@ -70,7 +70,10 @@ onKeyStroke("Escape", closeMobileMenu);
           </nav>
         </div>
       </Transition>
-      <main class="site-main">
+      <main
+        class="site-main"
+        :class="{ 'site-main--editor': route.meta.editorFullscreen }"
+      >
         <slot />
       </main>
 

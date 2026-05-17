@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     '~/assets/css/theme.css',
     '~/assets/css/base.css',
     '~/assets/css/layout.css',
+    '~/assets/css/custom-blocks.css',
     'katex/dist/katex.min.css',
   ],
 
@@ -91,8 +92,8 @@ export default defineNuxtConfig({
           'remark-flexible-markers': {},
           'remark-directive': {},
           'remark-math': {},
-          'remark-callout-local': {},
           'remark-code-group-compat': {},
+          'remark-callout-local': {},
         },
         rehypePlugins: {
           'rehype-slug': {},
@@ -122,8 +123,8 @@ export default defineNuxtConfig({
       'remark-flexible-markers': {},
       'remark-directive': {},
       'remark-math': {},
-      'remark-callout-local': {},
       'remark-code-group-compat': {},
+      'remark-callout-local': {},
     },
     rehypePlugins: {
       'rehype-slug': {},

@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import '~/assets/css/editor.css'
+
+definePageMeta({
+  editorFullscreen: true,
+})
+
 const md = ref(`---
 title: 编辑器示例
 description: 这是一个实时预览示例
@@ -8,9 +14,16 @@ description: 这是一个实时预览示例
 
 这里的预览使用 MDC 运行时渲染，便于快速验证语法。
 
-:::tip
+::: tip
 先让博客链路稳定，再继续增强编辑器能力。
 :::
+
+::: danger STOP
+危险区域，请勿继续
+:::
+
+> [!NOTE]
+> 强调用户在快速浏览文档时也不应忽略的重要信息。
 
 ## 支持的内容
 
@@ -28,6 +41,15 @@ $$
 `)
 
 const downloadName = computed(() => `post-${Date.now()}.md`)
+
+const lineCount = computed(() => {
+  if (!md.value) return 0
+  return md.value.split('\n').length
+})
+
+const charCount = computed(() => md.value.length)
+
+const isEmpty = computed(() => !md.value.trim())
 
 function exportMd() {
   const blob = new Blob([md.value], { type: 'text/markdown;charset=utf-8' })
@@ -48,36 +70,99 @@ useSiteSeo({
 </script>
 
 <template>
-  <div class="container page-stack">
-    <section class="page-header">
-      <p class="eyebrow">Editor</p>
-      <h1>Markdown 编辑器</h1>
-      <p>先在左侧输入内容，再在右侧预览；完成后可直接导出为 `.md` 文件。</p>
-    </section>
+  <div class="editor-page">
+    <section class="editor-workspace" aria-label="Markdown 编辑工作台">
+      <header class="editor-workspace__toolbar">
+        <div class="editor-toolbar__intro">
+          <p class="editor-toolbar__eyebrow">Editor</p>
+          <h1 class="editor-toolbar__title">Markdown 编辑器</h1>
+          <p class="editor-toolbar__hint">
+            左侧编辑 · 右侧预览 · 导出 <code>.md</code>
+          </p>
+        </div>
 
-    <section class="editor-grid">
-      <div class="editor-pane">
-        <div class="editor-pane__title">编辑区</div>
-        <textarea
-          v-model="md"
-          class="editor-textarea"
-          spellcheck="false"
-          placeholder="请输入 Markdown 内容"
-        />
-      </div>
+        <div class="editor-workspace__actions">
+          <div class="editor-workspace__meta">
+            <span class="editor-stat">
+              <span class="editor-stat__value">{{ lineCount }}</span>
+              行
+            </span>
+            <span class="editor-stat">
+              <span class="editor-stat__value">{{ charCount }}</span>
+              字符
+            </span>
+          </div>
 
-      <div class="editor-pane">
-        <div class="editor-pane__title">预览区</div>
-        <div class="editor-preview prose">
-          <MDC :value="md" :parser-options="{ highlight: false }" tag="article" />
+          <button
+            type="button"
+            class="editor-export-btn"
+            :disabled="isEmpty"
+            @click="exportMd"
+          >
+            <svg
+              class="editor-export-btn__icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 3v12" />
+              <path d="m7 10 5 5 5-5" />
+              <path d="M5 21h14" />
+            </svg>
+            导出
+          </button>
+        </div>
+      </header>
+
+      <div class="editor-workspace__panes">
+        <div class="editor-pane editor-pane--source">
+          <header class="editor-pane__head">
+            <span
+              class="editor-pane__dot editor-pane__dot--source"
+              aria-hidden="true"
+            />
+            <h2 class="editor-pane__title">编辑区</h2>
+            <span class="editor-pane__badge">Source</span>
+          </header>
+          <textarea
+            v-model="md"
+            v-scrollbar-reveal
+            class="editor-pane__input"
+            spellcheck="false"
+            aria-label="Markdown 源码"
+            placeholder="请输入 Markdown 内容…"
+          />
+        </div>
+
+        <div class="editor-pane editor-pane--preview">
+          <header class="editor-pane__head">
+            <span
+              class="editor-pane__dot editor-pane__dot--preview"
+              aria-hidden="true"
+            />
+            <h2 class="editor-pane__title">预览区</h2>
+            <span class="editor-pane__badge">Preview</span>
+          </header>
+          <div
+            v-scrollbar-reveal
+            class="editor-pane__body markdown-body prose"
+          >
+            <p v-if="isEmpty" class="editor-pane__empty">
+              预览将在此处显示
+            </p>
+            <MDC
+              v-else
+              :value="md"
+              :parser-options="{ highlight: false }"
+              tag="article"
+            />
+          </div>
         </div>
       </div>
     </section>
-
-    <div class="action-row">
-      <button type="button" class="button button--primary" @click="exportMd">
-        导出 Markdown
-      </button>
-    </div>
   </div>
 </template>

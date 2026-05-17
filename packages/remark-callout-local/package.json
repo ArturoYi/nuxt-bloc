@@ -4,5 +4,9 @@
   "type": "module",
   "exports": {
     ".": "./index.mjs"
+  },
+  "dependencies": {
+    "remark-container-compat": "file:../remark-container-compat",
+    "unist-util-visit": "^5.0.0"
   }
 }

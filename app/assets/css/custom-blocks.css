@@ -1,0 +1,117 @@
+/* VitePress-style custom containers & GitHub alerts */
+.markdown-body .custom-block {
+  margin: 16px 0;
+  padding: 16px 16px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--custom-block-border);
+  background: var(--custom-block-bg);
+  line-height: 1.7;
+}
+
+.markdown-body .custom-block > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body .custom-block > :last-child {
+  margin-bottom: 8px;
+}
+
+.markdown-body .custom-block-title {
+  margin: 0 0 8px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+.markdown-body .custom-block.details {
+  padding: 0 16px;
+}
+
+.markdown-body .custom-block.details > summary {
+  margin: 0 -16px;
+  padding: 16px 16px 8px;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.markdown-body .custom-block.details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.markdown-body .custom-block.details > summary::before {
+  content: '';
+  display: inline-block;
+  width: 0.45em;
+  height: 0.45em;
+  margin-right: 0.55em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg) translateY(-0.1em);
+  vertical-align: middle;
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+}
+
+.markdown-body .custom-block.details[open] > summary::before {
+  transform: rotate(45deg) translateY(-0.05em);
+}
+
+.markdown-body .custom-block.details[open] > summary {
+  border-bottom: 1px solid var(--custom-block-border);
+  margin-bottom: 8px;
+}
+
+.markdown-body .custom-block.tip {
+  --custom-block-accent: #3fb950;
+  border-color: color-mix(in srgb, var(--custom-block-accent) 35%, var(--custom-block-border));
+  background: color-mix(in srgb, var(--custom-block-accent) 8%, var(--custom-block-bg));
+}
+
+.markdown-body .custom-block.tip .custom-block-title {
+  color: var(--custom-block-accent);
+}
+
+.markdown-body .custom-block.info,
+.markdown-body .custom-block.note {
+  --custom-block-accent: #4493f8;
+  border-color: color-mix(in srgb, var(--custom-block-accent) 35%, var(--custom-block-border));
+  background: color-mix(in srgb, var(--custom-block-accent) 8%, var(--custom-block-bg));
+}
+
+.markdown-body .custom-block.info .custom-block-title,
+.markdown-body .custom-block.note .custom-block-title {
+  color: var(--custom-block-accent);
+}
+
+.markdown-body .custom-block.important {
+  --custom-block-accent: #ab7df8;
+  border-color: color-mix(in srgb, var(--custom-block-accent) 35%, var(--custom-block-border));
+  background: color-mix(in srgb, var(--custom-block-accent) 8%, var(--custom-block-bg));
+}
+
+.markdown-body .custom-block.important .custom-block-title {
+  color: var(--custom-block-accent);
+}
+
+.markdown-body .custom-block.warning {
+  --custom-block-accent: #d29922;
+  border-color: color-mix(in srgb, var(--custom-block-accent) 35%, var(--custom-block-border));
+  background: color-mix(in srgb, var(--custom-block-accent) 8%, var(--custom-block-bg));
+}
+
+.markdown-body .custom-block.warning .custom-block-title {
+  color: var(--custom-block-accent);
+}
+
+.markdown-body .custom-block.danger,
+.markdown-body .custom-block.caution {
+  --custom-block-accent: #f85149;
+  border-color: color-mix(in srgb, var(--custom-block-accent) 35%, var(--custom-block-border));
+  background: color-mix(in srgb, var(--custom-block-accent) 8%, var(--custom-block-bg));
+}
+
+.markdown-body .custom-block.danger .custom-block-title,
+.markdown-body .custom-block.caution .custom-block-title {
+  color: var(--custom-block-accent);
+}
