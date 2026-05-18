@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   ssr: true,
   pages: true,
 
-  modules: ['@vueuse/nuxt', '@nuxt/content', '@nuxtjs/mdc'],
+  modules: ['@vueuse/nuxt', '@nuxt/content'],
 
   // 全局注册主题、基础排版与布局骨架（layout.css）；业务与头部/页脚样式仍在各 Vue 的 <style> 中。
   css: [
@@ -62,16 +62,17 @@ export default defineNuxtConfig({
     preset: 'static',
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/blog', '/gallery', '/editor', '/rss.xml', '/sitemap.xml', '/robots.txt'],
+      routes: ['/', '/blog', '/notes', '/gallery', '/rss.xml', '/sitemap.xml', '/robots.txt'],
     },
   },
 
   routeRules: {
     '/blog': { prerender: true },
     '/blog/**': { prerender: true },
+    '/notes': { prerender: true },
+    '/notes/**': { prerender: true },
     '/gallery': { prerender: true },
     '/gallery/**': { prerender: true },
-    '/editor': { prerender: true },
     '/rss.xml': { prerender: true },
     '/sitemap.xml': { prerender: true },
     '/robots.txt': { prerender: true },
@@ -114,32 +115,6 @@ export default defineNuxtConfig({
         h3: true,
         h4: true,
       },
-    },
-  },
-
-  mdc: {
-    remarkPlugins: {
-      'remark-gfm': {},
-      'remark-flexible-markers': {},
-      'remark-directive': {},
-      'remark-math': {},
-      'remark-code-group-compat': {},
-      'remark-callout-local': {},
-    },
-    rehypePlugins: {
-      'rehype-slug': {},
-      'rehype-external-links': {},
-      'rehype-katex': {},
-    },
-    headings: {
-      anchorLinks: {
-        h2: true,
-        h3: true,
-        h4: true,
-      },
-    },
-    components: {
-      prose: true,
     },
   },
 })

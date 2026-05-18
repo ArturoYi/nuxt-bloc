@@ -13,7 +13,7 @@ export default eventHandler(async (event) => {
     .all()
 
   const items = entries
-    .filter(entry => entry.path && (entry.path.startsWith('/blog/') || entry.path.startsWith('/gallery/')))
+    .filter(entry => entry.path && (entry.path.startsWith('/blog/') || entry.path.startsWith('/notes/') || entry.path.startsWith('/gallery/')))
     .map((entry) => {
       const link = `${siteUrl}${entry.path}`
       const title = xmlEscape(entry.title || 'Untitled')

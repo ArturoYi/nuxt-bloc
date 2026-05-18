@@ -16,14 +16,14 @@ export const SITE_HOME_INTRO = '我是一名前端开发者，喜欢研究技术
 
 export const siteNavigationItems: SiteNavigationItem[] = [
   { to: '/blog', label: '博客' },
+  { to: '/notes', label: '笔记' },
   { to: '/gallery', label: '照片' },
-  { to: '/editor', label: '编辑器' },
 ]
 
 export const siteFooterLinks: SiteFooterLink[] = [
   { to: '/blog', label: '博客' },
+  { to: '/notes', label: '笔记' },
   { to: '/gallery', label: '照片墙' },
-  { to: '/editor', label: '编辑器' },
   { href: '/rss.xml', label: 'RSS' },
   { href: '/sitemap.xml', label: 'Sitemap' },
 ]

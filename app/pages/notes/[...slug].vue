@@ -8,12 +8,12 @@ const { data: page } = await useAsyncData(`page:${route.path}`, () => {
 if (!page.value) {
   throw createError({
     statusCode: 404,
-    statusMessage: "文章不存在",
+    statusMessage: "笔记不存在",
   });
 }
 
 const articleOutline = useBlogArticleOutline(page);
-const { seriesNav } = useBlogArticleSeries(page);
+const { seriesNav } = useNotesArticleSeries(page);
 
 useSiteSeo({
   title: page.value.seo?.title || page.value.title,

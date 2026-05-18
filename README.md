@@ -109,7 +109,6 @@
 | `layouts/default.vue` | 默认全站布局：背景、Header / Main / Footer、移动端抽屉等。 |
 | `pages/index.vue` | 首页，通常渲染 `content/index.md`。 |
 | `pages/notes.vue` | 笔记或归档类列表页。 |
-| `pages/editor.vue` | 浏览器内 Markdown 编辑/预览实验页。 |
 | `pages/blog/index.vue` | 博客文章列表（可按分类等筛选）。 |
 | `pages/blog/page/[page].vue` | 博客列表分页路由。 |
 | `pages/blog/[...slug].vue` | 单篇博客详情，按 slug 匹配 `content/blog/**`。 |

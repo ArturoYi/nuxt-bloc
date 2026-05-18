@@ -5,7 +5,6 @@ export default eventHandler((event) => {
   const body = [
     'User-agent: *',
     'Allow: /',
-    'Disallow: /editor',
     `Sitemap: ${siteUrl}/sitemap.xml`,
     `# RSS Feed: ${siteUrl}/rss.xml`,
   ].join('\n')

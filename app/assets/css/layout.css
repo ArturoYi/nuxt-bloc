@@ -59,6 +59,15 @@
   width: var(--sidebar-w);
 }
 
+.layout-sidebar:not(:has(.blog-series-nav--sidebar)) {
+  display: none;
+  width: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .layout-outline {
   width: var(--outline-w);
 }

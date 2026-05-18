@@ -1,5 +1,5 @@
 import { queryCollection } from '#imports'
-import { BLOG_PAGE_SIZE, GALLERY_PAGE_SIZE, isBlogPath, isGalleryPath } from '~~/utils/content'
+import { BLOG_PAGE_SIZE, GALLERY_PAGE_SIZE, NOTES_PAGE_SIZE, isBlogPath, isGalleryPath, isNotesPath } from '~~/utils/content'
 
 export default eventHandler(async (event) => {
   const config = useRuntimeConfig(event)
@@ -12,8 +12,8 @@ export default eventHandler(async (event) => {
   const staticRoutes = [
     '/',
     '/blog',
+    '/notes',
     '/gallery',
-    '/editor',
     '/rss.xml',
     '/sitemap.xml',
   ]
@@ -27,12 +27,15 @@ export default eventHandler(async (event) => {
   ]
 
   const blogCount = entries.filter(entry => isBlogPath(entry.path)).length
+  const notesCount = entries.filter(entry => isNotesPath(entry.path)).length
   const galleryCount = entries.filter(entry => isGalleryPath(entry.path)).length
   const blogPages = Math.ceil(blogCount / BLOG_PAGE_SIZE)
+  const notesPages = Math.ceil(notesCount / NOTES_PAGE_SIZE)
   const galleryPages = Math.ceil(galleryCount / GALLERY_PAGE_SIZE)
 
   const pageRoutes = [
     ...Array.from({ length: Math.max(blogPages - 1, 0) }, (_, index) => `/blog/page/${index + 2}`),
+    ...Array.from({ length: Math.max(notesPages - 1, 0) }, (_, index) => `/notes/page/${index + 2}`),
     ...Array.from({ length: Math.max(galleryPages - 1, 0) }, (_, index) => `/gallery/page/${index + 2}`),
   ]
 

@@ -1,29 +1,30 @@
-export type LayoutDrawerPanel = "sidebar" | "outline";
+export type LayoutDrawerPanel = 'sidebar' | 'outline'
 
-const activePanel = ref<LayoutDrawerPanel | null>(null);
-const hasSeriesNav = ref(false);
+const activePanel = ref<LayoutDrawerPanel | null>(null)
 
 export function useLayoutDrawer() {
-  const isOpen = computed(() => activePanel.value !== null);
+  const hasSeriesNav = useState('article-series-nav-active', () => false)
 
-  const isSidebarOpen = computed(() => activePanel.value === "sidebar");
-  const isOutlineOpen = computed(() => activePanel.value === "outline");
+  const isOpen = computed(() => activePanel.value !== null)
+
+  const isSidebarOpen = computed(() => activePanel.value === 'sidebar')
+  const isOutlineOpen = computed(() => activePanel.value === 'outline')
 
   const toggleSidebar = () => {
-    activePanel.value = activePanel.value === "sidebar" ? null : "sidebar";
-  };
+    activePanel.value = activePanel.value === 'sidebar' ? null : 'sidebar'
+  }
 
   const toggleOutline = () => {
-    activePanel.value = activePanel.value === "outline" ? null : "outline";
-  };
+    activePanel.value = activePanel.value === 'outline' ? null : 'outline'
+  }
 
   const close = () => {
-    activePanel.value = null;
-  };
+    activePanel.value = null
+  }
 
   const setHasSeriesNav = (value: boolean) => {
-    hasSeriesNav.value = value;
-  };
+    hasSeriesNav.value = value
+  }
 
   return {
     activePanel,
@@ -35,5 +36,5 @@ export function useLayoutDrawer() {
     toggleOutline,
     close,
     setHasSeriesNav,
-  };
+  }
 }

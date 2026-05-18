@@ -1,8 +1,13 @@
 export const BLOG_PAGE_SIZE = 2
+export const NOTES_PAGE_SIZE = 2
 export const GALLERY_PAGE_SIZE = 4
 
 export function isBlogPath(path?: string) {
   return Boolean(path?.startsWith('/blog/'))
+}
+
+export function isNotesPath(path?: string) {
+  return Boolean(path?.startsWith('/notes/'))
 }
 
 export function isGalleryPath(path?: string) {
@@ -29,6 +34,8 @@ export function uniqueCategories<T extends { category?: string | null }>(items: 
 export function contentKind(path?: string) {
   if (isBlogPath(path))
     return 'blog'
+  if (isNotesPath(path))
+    return 'notes'
   if (isGalleryPath(path))
     return 'gallery'
   return 'page'

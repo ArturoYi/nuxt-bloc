@@ -19,7 +19,7 @@ navigation:
 ## 当前技术路线
 
 :::tip
-正式文章使用 `@nuxt/content` 渲染，编辑器预览使用 MDC 管线，尽量保持插件与语法一致。
+正式文章使用 `@nuxt/content` 渲染，Markdown 扩展与构建配置集中在 `nuxt.config.ts`。
 :::
 
 ## 下一步建议

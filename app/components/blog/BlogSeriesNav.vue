@@ -11,20 +11,11 @@ const hasNav = computed(() =>
 
 const activeNav = computed(() => (hasNav.value ? props.nav : null))
 
-const { isSidebarOpen, close, setHasSeriesNav } = useLayoutDrawer()
+const { isSidebarOpen, close } = useLayoutDrawer()
 const isSidebarDrawer = useMediaQuery('(max-width: 767.98px)')
 
-watch(
-  hasNav,
-  (visible) => {
-    setHasSeriesNav(visible)
-    if (!visible && isSidebarOpen.value) close()
-  },
-  { immediate: true },
-)
-
-onBeforeUnmount(() => {
-  setHasSeriesNav(false)
+watch(hasNav, (visible) => {
+  if (!visible && isSidebarOpen.value) close()
 })
 
 function onNavigate() {
@@ -32,8 +23,6 @@ function onNavigate() {
     close()
   }
 }
-
-console.log(props.nav);
 </script>
 
 <template>
