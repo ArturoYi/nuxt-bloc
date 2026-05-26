@@ -11,12 +11,6 @@ importers:
       '@nuxt/content':
         specifier: ^3.13.0
         version: 3.13.0(magicast@0.5.2)
-      '@nuxtjs/mdc':
-        specifier: ^0.21.1
-        version: 0.21.1(magicast@0.5.2)
-      '@shikijs/transformers':
-        specifier: ^4.0.2
-        version: 4.0.2
       katex:
         specifier: ^0.16.45
         version: 0.16.45
