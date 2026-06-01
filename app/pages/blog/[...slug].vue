@@ -1,26 +1,20 @@
 <script setup lang="ts">
-const route = useRoute();
+import { CONTENT_SECTION_NOT_FOUND } from '~/constants/content'
 
-const { data: page } = await useAsyncData(`page:${route.path}`, () => {
-  return queryCollection("content").path(route.path).first();
-});
+const route = useRoute()
+
+const { data: page } = await useAsyncData(`page:${route.path}`, () =>
+  queryCollection('content').path(route.path).first(),
+)
 
 if (!page.value) {
   throw createError({
     statusCode: 404,
-    statusMessage: "文章不存在",
-  });
+    statusMessage: CONTENT_SECTION_NOT_FOUND.blog,
+  })
 }
 
-const articleOutline = useBlogArticleOutline(page);
-const { seriesNav } = useBlogArticleSeries(page);
-
-useSiteSeo({
-  title: page.value.seo?.title || page.value.title,
-  description: page.value.seo?.description || page.value.description,
-  path: route.path,
-  type: "article",
-});
+const { articleOutline, seriesNav } = useContentArticlePage('blog', page)
 </script>
 
 <template>

@@ -1,23 +1,13 @@
-import type { BlogSeriesNav } from '~/types/blog'
-import { buildBlogSeriesNav, toBlogSeriesArticle } from '~~/utils/blog-series'
+import type { ArticleSeriesPage } from '~/types/blog'
+import type { ContentSection } from '~/constants/content'
+import { CONTENT_SECTION_PATH } from '~/constants/content'
+import {
+  buildBlogSeriesNav,
+  hasBlogSeriesNavContent,
+  toBlogSeriesArticle,
+} from '~~/utils/blog-series'
 
-export type ArticleSeriesPage = {
-  path: string
-  title: string
-  series?: string | null
-  stage?: string | null
-  stem: string
-  date?: string | null
-  published?: boolean | null
-}
-
-export type ArticleSeriesSection = 'blog' | 'notes'
-
-const SECTION_PATH_PREFIX: Record<ArticleSeriesSection, string> = {
-  blog: '/blog',
-  notes: '/notes',
-}
-
+/** 文章是否属于指定分区且具备 series / stage 元数据 */
 function isSeriesArticle(
   post: { path?: string | null, series?: string | null, stage?: string | null },
   pathPrefix: string,
@@ -28,21 +18,21 @@ function isSeriesArticle(
     && Boolean(post.stage?.trim())
 }
 
-function hasSeriesNavContent(nav: BlogSeriesNav | null | undefined) {
-  return Boolean(nav?.stages?.some(stage => stage.articles.length > 0))
-}
-
+/**
+ * 根据当前文章的 series 字段，异步加载同系列文章并构建侧边栏导航。
+ * 路由切换时通过 seriesKey 缓存避免侧栏闪烁，并通过挂载世代防止误清全局状态。
+ */
 export function useArticleSeries(
   page: Ref<ArticleSeriesPage | null | undefined>,
-  section: ArticleSeriesSection,
+  section: ContentSection,
 ) {
   const route = useRoute()
-  const pathPrefix = SECTION_PATH_PREFIX[section]
+  const pathPrefix = CONTENT_SECTION_PATH[section]
   const { setHasSeriesNav } = useLayoutDrawer()
 
   const seriesName = computed(() => page.value?.series?.trim() || null)
 
-  // 切换文章时 page 会短暂为空；保留上一次系列名，避免 useAsyncData key 抖动清空侧栏
+  // 切换文章时 page 会短暂为空；保留上一次系列名，避免 useAsyncData key 抖动
   const seriesKey = ref<string | null>(seriesName.value)
 
   watch(
@@ -85,40 +75,34 @@ export function useArticleSeries(
     { watch: [seriesKey] },
   )
 
-  const seriesNav = computed<BlogSeriesNav | null>(() => {
+  const seriesNav = computed(() => {
     const base = seriesNavBase.value
     if (!base) return null
     return { ...base, currentPath: route.path }
   })
 
   watch(
-    seriesNav,
-    (nav) => {
-      if (hasSeriesNavContent(nav)) {
+    [seriesNav, seriesKey],
+    ([nav, key]) => {
+      // nav 短暂为空但 seriesKey 仍有效时，保留侧栏入口
+      if (key || hasBlogSeriesNavContent(nav)) {
         setHasSeriesNav(true)
         return
       }
-      if (!seriesKey.value) {
-        setHasSeriesNav(false)
-      }
+      setHasSeriesNav(false)
     },
     { immediate: true },
   )
 
+  // 新页面实例已挂载时，避免旧实例卸载误清全局侧栏状态
+  const mountGeneration = useState('article-series-mount-gen', () => 0)
+  const instanceGeneration = ++mountGeneration.value
+
   onBeforeUnmount(() => {
-    setHasSeriesNav(false)
+    if (mountGeneration.value === instanceGeneration) {
+      setHasSeriesNav(false)
+    }
   })
 
-  return {
-    seriesName,
-    seriesNav,
-  }
-}
-
-export function useBlogArticleSeries(page: Ref<ArticleSeriesPage | null | undefined>) {
-  return useArticleSeries(page, 'blog')
-}
-
-export function useNotesArticleSeries(page: Ref<ArticleSeriesPage | null | undefined>) {
-  return useArticleSeries(page, 'notes')
+  return { seriesName, seriesNav }
 }

@@ -11,6 +11,7 @@ type PageWithToc = {
   } | null
 }
 
+/** 从 content 页面的 body.toc 提取右侧大纲数据 */
 export function useBlogArticleOutline(page: Ref<PageWithToc | null | undefined>) {
   return computed<BlogArticleOutline | null>(() => {
     const toc = page.value?.body?.toc

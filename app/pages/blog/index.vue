@@ -359,6 +359,7 @@ const navCanScrollRight = computed(() => navScrollOverflow.value.right);
   display: flex;
   flex-direction: column;
   gap: 2.25rem;
+  padding: 0 1.25rem;
 }
 
 /* 时间段分组：无衬底，年份绝对叠在底层作装饰。 */

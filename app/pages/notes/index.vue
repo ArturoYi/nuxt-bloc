@@ -4,19 +4,12 @@ definePageMeta({
 });
 
 import { uniqueCategories } from "~~/utils/content";
+import { buildNotesSeriesSummaries } from "~~/utils/notes-series";
 
 function timestampFromContentDate(date?: string | null) {
   if (!date) return Number.NEGATIVE_INFINITY;
   const t = Date.parse(date);
   return Number.isFinite(t) ? t : Number.NEGATIVE_INFINITY;
-}
-
-function yearFromContentDate(date?: string | null) {
-  if (!date) return null;
-  const t = Date.parse(date);
-  if (!Number.isFinite(t)) return null;
-  const y = new Date(t).getFullYear();
-  return Number.isFinite(y) ? y : null;
 }
 
 const route = useRoute();
@@ -55,20 +48,9 @@ const filteredNotesPosts = computed(() => {
   return list.filter((p) => p.category === cat);
 });
 
-const postsByYear = computed(() => {
-  type Post = (typeof sortedNotesPosts.value)[number];
-  const groups: { label: string; posts: Post[]; yearWatermark: boolean }[] = [];
-  for (const post of filteredNotesPosts.value) {
-    const y = yearFromContentDate(post.date);
-    const label = y === null ? "日期未定" : String(y);
-    const yearWatermark = /^\d{4}$/.test(label);
-    const last = groups[groups.length - 1];
-    if (!last || last.label !== label)
-      groups.push({ label, posts: [post], yearWatermark });
-    else last.posts.push(post);
-  }
-  return groups;
-});
+const notesSeriesList = computed(() =>
+  buildNotesSeriesSummaries(filteredNotesPosts.value),
+);
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -78,17 +60,17 @@ function absoluteContentUrl(path: string) {
 }
 
 const notesListJsonLd = computed(() => {
-  const list = filteredNotesPosts.value;
+  const list = notesSeriesList.value;
   if (!list.length) return null;
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
     numberOfItems: list.length,
-    itemListElement: list.map((post, i) => ({
+    itemListElement: list.map((item, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      name: post.title,
-      url: absoluteContentUrl(post.path),
+      name: item.series,
+      url: absoluteContentUrl(item.href),
     })),
   };
 });
@@ -219,36 +201,23 @@ const navCanScrollRight = computed(() => navScrollOverflow.value.right);
     </nav>
 
     <p
-      v-if="selectedCategory && !postsByYear.length"
+      v-if="selectedCategory && !notesSeriesList.length"
       class="notes-archive-empty"
     >
-      「{{ selectedCategory }}」分类下暂无笔记。
+      「{{ selectedCategory }}」分类下暂无笔记系列。
     </p>
 
     <section
-      v-if="postsByYear.length"
-      class="notes-timeline"
-      aria-label="按年份归档的笔记"
+      v-if="notesSeriesList.length"
+      class="notes-archive"
+      aria-label="笔记系列列表"
     >
-      <div
-        v-for="group in postsByYear"
-        :key="group.label"
-        class="notes-timeline__group"
-        :class="{ 'notes-timeline__group--watermark': group.yearWatermark }"
-      >
-        <h2
-          class="notes-timeline__year"
-          :class="{ 'notes-timeline__year--watermark': group.yearWatermark }"
-        >
-          {{ group.label }}
-        </h2>
-        <div class="archive-list notes-timeline__list">
-          <BlogArchivePostCard
-            v-for="post in group.posts"
-            :key="post.path"
-            :post="post"
-          />
-        </div>
+      <div class="notes-archive__grid">
+        <NotesSeriesCard
+          v-for="item in notesSeriesList"
+          :key="item.series"
+          :item="item"
+        />
       </div>
     </section>
   </div>
@@ -355,64 +324,19 @@ const navCanScrollRight = computed(() => navScrollOverflow.value.right);
   color: var(--muted);
 }
 
-.notes-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 2.25rem;
+.notes-archive {
+  padding: 1.25rem;
 }
 
-.notes-timeline__group {
-  position: relative;
-  padding: 0.35rem 0 1.25rem;
-  overflow: visible;
+.notes-archive__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16.5rem), 1fr));
+  gap: 1rem;
 }
 
-.notes-timeline__group--watermark {
-  min-height: clamp(10rem, 36vw, 15rem);
-  padding-top: 0.5rem;
-}
-
-.notes-timeline__year {
-  position: absolute;
-  z-index: 0;
-  margin: 0;
-  pointer-events: none;
-  user-select: none;
-  left: 0.35rem;
-  top: 0.2rem;
-  font-size: clamp(1.35rem, 4vw, 1.85rem);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--muted-strong);
-  opacity: 0.4;
-  -webkit-text-stroke: 0 transparent;
-}
-
-.notes-timeline__year--watermark {
-  left: -0.35rem;
-  top: -0.85rem;
-  font-size: clamp(4.25rem, 22vw, 10.5rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  color: transparent;
-  -webkit-text-stroke: 2px rgba(var(--art-dots-rgb), 0.78);
-  opacity: 0.28;
-  paint-order: stroke fill;
-}
-
-[data-theme="light"] .notes-timeline__year--watermark {
-  -webkit-text-stroke: 2px rgba(var(--art-dots-rgb), 0.62);
-  opacity: 0.32;
-}
-
-.notes-timeline__list {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  padding-top: 5rem;
-  gap: clamp(1.35rem, 2.8vw, 2.25rem);
+@media (min-width: 768px) {
+  .notes-archive__grid {
+    gap: 1.15rem;
+  }
 }
 </style>

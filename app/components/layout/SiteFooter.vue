@@ -33,9 +33,9 @@ defineProps<{
   </footer>
 </template>
 
-<style>
+<style scoped>
 .site-footer {
-  padding: 1.25rem 0 1.25rem;
+  padding: 1.25rem;
   color: var(--muted);
   margin-top: 0 auto;
   border-top: 1px solid var(--border);
@@ -44,8 +44,7 @@ defineProps<{
 .site-footer__inner {
   display: flex;
   justify-content: space-between;
-  gap: 1.5rem;
-  padding-top: 1.25rem;
+  gap: 0.5rem;
 }
 
 .footer-title {
