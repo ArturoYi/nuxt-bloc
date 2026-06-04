@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-main">
+  <div v-scrollbar-reveal class="layout-main">
     <slot />
   </div>
 </template>

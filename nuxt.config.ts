@@ -1,4 +1,5 @@
 import { SITE_BRAND_NAME, SITE_DESCRIPTION } from './app/constants/site'
+import { markdownHighlightLangs } from './utils/highlight-langs'
 
 
 // Nuxt 配置入口，集中定义全局模块、样式和静态生成行为。
@@ -16,7 +17,7 @@ export default defineNuxtConfig({
   ssr: true,
   pages: true,
 
-  modules: ['@vueuse/nuxt', '@nuxt/content'],
+  modules: ['@vueuse/nuxt', '@nuxt/content', 'nuxt-easy-lightbox'],
 
   // 全局注册主题、基础排版与布局骨架（layout.css）；业务与头部/页脚样式仍在各 Vue 的 <style> 中。
   css: [
@@ -24,6 +25,7 @@ export default defineNuxtConfig({
     '~/assets/css/base.css',
     '~/assets/css/layout.css',
     '~/assets/css/custom-blocks.css',
+    '~/assets/css/lightbox.css',
     'katex/dist/katex.min.css',
   ],
 
@@ -106,6 +108,7 @@ export default defineNuxtConfig({
             default: 'github-light',
             dark: 'github-dark',
           },
+          langs: [...markdownHighlightLangs],
         },
       },
     },

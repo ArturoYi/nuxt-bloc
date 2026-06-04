@@ -24,7 +24,7 @@ const { articleOutline, seriesNav } = useContentArticlePage('blog', page)
     </template>
     <template #main>
       <article v-if="page" class="markdown-body">
-        <ContentRenderer :value="page" prose />
+        <ContentProse :value="page" />
       </article>
     </template>
     <template #aside>

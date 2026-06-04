@@ -1,35 +1,45 @@
 <script setup lang="ts">
+import {
+  getArticleScrollRoot,
+  getPageScrollTop,
+  scrollPageToTop,
+} from '~/utils/article-scroll'
+
 const SCROLL_SHOW_AT = 360
+const route = useRoute()
 const { active: progressActive, value: progressValue } = useNavProgress()
 
 const showBackTop = ref(false)
 const prefersReducedMotion = ref(false)
 
-const getScrollTop = () =>
-  window.scrollY
-  || document.documentElement.scrollTop
-  || document.body.scrollTop
-  || 0
+let articleScrollRoot: HTMLElement | null = null
 
 const syncBackTop = () => {
-  showBackTop.value = getScrollTop() > SCROLL_SHOW_AT
+  showBackTop.value = getPageScrollTop() > SCROLL_SHOW_AT
 }
 
 const scrollToTop = () => {
-  if (prefersReducedMotion.value) {
-    window.scrollTo(0, 0)
-    return
-  }
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  scrollPageToTop(prefersReducedMotion.value ? 'instant' : 'smooth')
+}
+
+function bindScrollListeners() {
+  articleScrollRoot?.removeEventListener('scroll', syncBackTop)
+  window.removeEventListener('scroll', syncBackTop)
+  articleScrollRoot = getArticleScrollRoot()
+  syncBackTop()
+  window.addEventListener('scroll', syncBackTop, { passive: true })
+  articleScrollRoot?.addEventListener('scroll', syncBackTop, { passive: true })
 }
 
 onMounted(() => {
   prefersReducedMotion.value = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  syncBackTop()
-  window.addEventListener('scroll', syncBackTop, { passive: true })
+  bindScrollListeners()
 })
 
+watch(() => route.path, () => nextTick(bindScrollListeners))
+
 onBeforeUnmount(() => {
+  articleScrollRoot?.removeEventListener('scroll', syncBackTop)
   window.removeEventListener('scroll', syncBackTop)
 })
 </script>

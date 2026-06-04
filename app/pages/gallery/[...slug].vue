@@ -66,7 +66,7 @@ useSiteSeo({
         </header>
 
         <div class="content-card content-card--soft markdown-body">
-          <ContentRenderer :value="photo" prose />
+          <ContentProse :value="photo" />
         </div>
       </div>
     </article>

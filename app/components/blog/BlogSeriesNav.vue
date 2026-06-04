@@ -28,7 +28,6 @@ function onNavigate() {
 
 <template>
   <template v-if="activeNav">
-    <!-- 桌面端：layout sidebar 插槽 -->
     <div
       v-show="!isSidebarDrawer"
       class="blog-series-nav blog-series-nav--sidebar"
@@ -37,7 +36,6 @@ function onNavigate() {
       <BlogSeriesStageList :nav="activeNav" @navigate="onNavigate" />
     </div>
 
-    <!-- 移动端：左侧抽屉 -->
     <Teleport to="body">
       <Transition name="layout-drawer">
         <button

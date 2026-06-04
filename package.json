@@ -13,6 +13,7 @@
     "@nuxt/content": "^3.13.0",
     "katex": "^0.16.45",
     "nuxt": "^4.4.4",
+    "nuxt-easy-lightbox": "^1.1.0",
     "rehype-external-links": "^3.0.0",
     "rehype-katex": "^7.0.1",
     "rehype-slug": "^6.0.0",

@@ -1,0 +1,171 @@
+/* vue-easy-lightbox 全局样式增强：控件悬浮、高对比度、移动端适配 */
+
+.vel-modal {
+  background: rgba(2, 6, 23, 0.92) !important;
+}
+
+.vel-modal .vel-img {
+  background-color: rgba(15, 23, 42, 0.45);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55);
+}
+
+/* 隐藏库自带低对比度按钮，改用自定义控件 */
+.vel-modal .vel-btns-wrapper .btn__close {
+  display: none;
+}
+
+.vel-modal .vel-btns-wrapper .vel-toolbar {
+  display: none;
+}
+
+.markdown-lightbox-close {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 10001;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.88);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.markdown-lightbox-close:hover {
+  background: rgba(30, 41, 59, 0.96);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.markdown-lightbox-close svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+.markdown-lightbox-toolbar {
+  position: fixed;
+  left: 50%;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: calc(100vw - 2rem);
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 10px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: translateX(-50%);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.markdown-lightbox-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.markdown-lightbox-toolbar__btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.markdown-lightbox-toolbar__btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+.markdown-lightbox-toolbar__btn svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
+.markdown-lightbox-toolbar__btn--accent {
+  background: rgba(var(--brand-rgb), 0.22);
+  border-color: rgba(var(--brand-rgb), 0.45);
+}
+
+.markdown-lightbox-toolbar__btn--accent:hover {
+  background: rgba(var(--brand-rgb), 0.34);
+  border-color: rgba(var(--brand-rgb), 0.62);
+}
+
+.vel-modal .vel-btns-wrapper .btn__prev,
+.vel-modal .vel-btns-wrapper .btn__next {
+  z-index: 10000;
+  opacity: 0.92;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.65));
+}
+
+.vel-modal .vel-btns-wrapper .btn__prev:hover,
+.vel-modal .vel-btns-wrapper .btn__next:hover {
+  opacity: 1;
+}
+
+.vel-modal .vel-img-title {
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 4.25rem);
+  z-index: 10000;
+  max-width: min(80vw, 640px);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.78);
+  color: #f8fafc;
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 640px) {
+  .markdown-lightbox-close {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .markdown-lightbox-toolbar {
+    gap: 0.25rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .markdown-lightbox-toolbar__btn {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .markdown-lightbox-toolbar__btn svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}

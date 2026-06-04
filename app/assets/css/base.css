@@ -146,6 +146,20 @@ textarea {
   -webkit-overflow-scrolling: touch;
 }
 
+.markdown-body .prose-img-paragraph {
+  text-align: center;
+}
+
+.markdown-body {
+  --prose-img-height: 360px;
+  --prose-img-max-width: 640px;
+}
+
+.markdown-body .prose-img__image {
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
 /* ================== VitePress 原版代码块样式 ================== */
 /* 外层容器 */
 .prose pre {

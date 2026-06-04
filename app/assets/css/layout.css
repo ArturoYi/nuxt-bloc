@@ -9,6 +9,10 @@
   --layout-scrim-z: 44;
   --banner-w: 92.5rem;
   --layout-toolbar-h: 3.125rem;
+  /* 正文区宽度：视同左右栏均存在，不随栏位有无内容而变宽 */
+  --layout-article-main-max: calc(
+    var(--banner-w) - var(--sidebar-w) - var(--outline-w) - 2 * var(--layout-gap)
+  );
 }
 
 @media (max-width: 767.98px) {
@@ -34,22 +38,23 @@
   padding: 0 var(--layout-padding) var(--layout-padding);
   margin-inline: auto;
   gap: var(--layout-gap);
-  overflow-x: hidden;
 }
 
 .layout-content-box {
+  flex: 0 1 var(--layout-article-main-max);
+  width: 100%;
   min-width: 0;
-  flex: 1;
+  max-width: var(--layout-article-main-max);
 }
 
-/* 左侧栏 / 右侧大纲：满屏高、粘性定位、内部独立滚动 */
+/* 左侧栏 / 右侧大纲：随页面滚动时吸顶，过长时在栏内滚动 */
 .layout-sidebar,
 .layout-outline {
   position: sticky;
   top: 0;
   align-self: flex-start;
   flex-shrink: 0;
-  max-height: 100vh;
+  max-height: 100dvh;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -72,9 +77,183 @@
   width: var(--outline-w);
 }
 
-/* 中间主体：不设高度，随内容撑开，由文档流滚动 */
+.layout-outline:not(:has(.blog-outline--aside)) {
+  display: none;
+  width: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 桌面三栏：网格锁定正文列宽，空栏折叠不占视觉空间 */
+@media (min-width: 992px) {
+  .layout-wrap {
+    display: grid;
+    grid-template-columns:
+      minmax(0, var(--sidebar-w))
+      minmax(0, var(--layout-article-main-max))
+      minmax(0, var(--outline-w));
+    align-items: stretch;
+    column-gap: var(--layout-gap);
+  }
+
+  .layout-wrap:not(:has(.blog-series-nav--sidebar)):has(.blog-outline--aside) {
+    grid-template-columns:
+      0
+      minmax(0, var(--layout-article-main-max))
+      minmax(0, var(--outline-w));
+  }
+
+  .layout-wrap:has(.blog-series-nav--sidebar):not(:has(.blog-outline--aside)) {
+    grid-template-columns:
+      minmax(0, var(--sidebar-w))
+      minmax(0, var(--layout-article-main-max))
+      0;
+  }
+
+  .layout-wrap:not(:has(.blog-series-nav--sidebar)):not(:has(.blog-outline--aside)) {
+    grid-template-columns: 0 minmax(0, var(--layout-article-main-max)) 0;
+    justify-content: center;
+  }
+
+  .layout-sidebar,
+  .layout-outline,
+  .layout-content-box {
+    width: auto;
+    max-width: none;
+    flex: unset;
+  }
+
+  .layout-content-box {
+    grid-column: 2;
+    justify-self: stretch;
+  }
+
+  .layout-sidebar {
+    grid-column: 1;
+  }
+
+  .layout-outline {
+    grid-column: 3;
+  }
+}
+
+/* 平板：仅左侧系列栏占位，正文宽度视同侧栏存在 */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  :root {
+    --layout-article-main-max: calc(
+      var(--banner-w) - var(--sidebar-w) - var(--layout-gap)
+    );
+  }
+
+  .layout-wrap {
+    display: grid;
+    grid-template-columns:
+      minmax(0, var(--sidebar-w))
+      minmax(0, var(--layout-article-main-max));
+    align-items: stretch;
+    column-gap: var(--layout-gap);
+  }
+
+  .layout-wrap:not(:has(.blog-series-nav--sidebar)) {
+    grid-template-columns: 0 minmax(0, var(--layout-article-main-max));
+    justify-content: center;
+  }
+
+  .layout-sidebar,
+  .layout-content-box {
+    width: auto;
+    max-width: none;
+    flex: unset;
+  }
+
+  .layout-content-box {
+    grid-column: 2;
+    justify-self: stretch;
+  }
+
+  .layout-sidebar {
+    grid-column: 1;
+  }
+}
+
+/* 中间主体 */
 .layout-main {
   min-width: 0;
+  overflow-x: hidden;
+}
+
+/*
+ * 文章三栏（blog/notes 详情，≥768px）：
+ * - 禁止 html 滚动（避免与正文双滚动条）
+ * - 侧栏固定高度，仅 .layout-main 滚动
+ */
+@media (min-width: 768px) {
+  html:has(.layout-wrap),
+  body:has(.layout-wrap) {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .site-shell:has(.layout-wrap) {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .site-shell__foreground:has(.layout-wrap) {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .site-main:has(.layout-wrap) {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .layout-wrap {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    align-items: stretch;
+    padding-bottom: 0;
+  }
+
+  .layout-sidebar,
+  .layout-outline,
+  .layout-content-box {
+    min-height: 0;
+  }
+
+  .layout-sidebar,
+  .layout-outline {
+    position: static;
+    top: auto;
+    align-self: stretch;
+    max-height: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .layout-content-box {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .layout-main {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: var(--layout-padding);
+  }
 }
 
 .layout-toolbar {
@@ -344,14 +523,24 @@
   }
 }
 
-/* 手机端：侧栏改为抽屉，不占位 */
+/* 手机端：侧栏改为抽屉，正文占满可用宽度 */
 @media (max-width: 767.98px) {
+  :root {
+    --layout-article-main-max: 100%;
+  }
+
   .layout-sidebar {
     display: none;
   }
 
   .layout-wrap {
+    display: flex;
     padding-bottom: 0.75rem;
+  }
+
+  .layout-content-box {
+    flex: 1 1 auto;
+    max-width: none;
   }
 }
 
