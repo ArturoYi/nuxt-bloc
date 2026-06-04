@@ -153,6 +153,7 @@ textarea {
 .markdown-body {
   --prose-img-height: 360px;
   --prose-img-max-width: 640px;
+  --prose-img-inline-width: 280px;
 }
 
 .markdown-body .prose-img__image {
