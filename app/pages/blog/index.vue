@@ -93,9 +93,7 @@ const blogListJsonLd = computed(() => {
   };
 });
 
-const blogListJsonLdString = computed(() =>
-  blogListJsonLd.value ? JSON.stringify(blogListJsonLd.value) : "",
-);
+useJsonLd("blog-list-jsonld", blogListJsonLd);
 
 useSiteSeo({
   title: "博客列表",
@@ -161,12 +159,6 @@ const navCanScrollRight = computed(() => navScrollOverflow.value.right);
 
 <template>
   <div class="container page-stack page-stack--xl">
-    <component
-      v-if="blogListJsonLdString"
-      :is="'script'"
-      type="application/ld+json"
-      >{{ blogListJsonLdString }}</component
-    >
     <nav class="blog-archive-nav" aria-label="博客分类">
       <div class="blog-archive-nav__viewport">
         <button

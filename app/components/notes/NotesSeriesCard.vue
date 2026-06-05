@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { DEFAULT_CONTENT_COVER } from '~~/utils/content'
 import type { NotesSeriesSummary } from '~~/utils/notes-series'
 
-defineProps<{
+const props = defineProps<{
   item: NotesSeriesSummary
 }>()
+
+const coverSrc = computed(() => props.item.cover || DEFAULT_CONTENT_COVER)
 </script>
 
 <template>
@@ -11,20 +14,12 @@ defineProps<{
     <NuxtLink class="notes-series-card__link" :to="item.href">
       <div class="notes-series-card__media">
         <img
-          v-if="item.cover"
           class="notes-series-card__cover"
-          :src="item.cover"
+          :src="coverSrc"
           :alt="`${item.series} 封面`"
           loading="lazy"
           decoding="async"
         >
-        <div
-          v-else
-          class="notes-series-card__placeholder"
-          aria-hidden="true"
-        >
-          <span class="notes-series-card__placeholder-text">{{ item.series.slice(0, 1) }}</span>
-        </div>
       </div>
       <div class="notes-series-card__body">
         <h3 class="notes-series-card__title">{{ item.series }}</h3>
@@ -73,26 +68,6 @@ defineProps<{
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.notes-series-card__placeholder {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--brand) 18%, transparent),
-    color-mix(in srgb, var(--muted) 10%, transparent)
-  );
-}
-
-.notes-series-card__placeholder-text {
-  font-size: 2.25rem;
-  font-weight: 700;
-  line-height: 1;
-  color: color-mix(in srgb, var(--brand-strong) 72%, var(--muted));
-  opacity: 0.85;
 }
 
 .notes-series-card__body {

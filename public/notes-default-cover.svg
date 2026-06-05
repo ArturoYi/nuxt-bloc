@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="default notes cover">
+  <defs>
+    <radialGradient id="notes-default-bg" cx="50%" cy="45%" r="75%">
+      <stop offset="0%" stop-color="#2b2b2b" />
+      <stop offset="100%" stop-color="#121212" />
+    </radialGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#notes-default-bg)" />
+  <g fill="none" stroke="#f5f5f5" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 286 124 L 216 180 L 286 236" />
+    <path d="M 318 236 L 368 124" />
+    <path d="M 400 124 L 470 180 L 400 236" />
+  </g>
+</svg>

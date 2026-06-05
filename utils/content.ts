@@ -41,8 +41,14 @@ export function contentKind(path?: string) {
   return 'page'
 }
 
+export const DEFAULT_CONTENT_COVER = '/notes-default-cover.svg'
+
 export function contentCover(item: { cover?: string | null, image?: string | null }) {
   return item.cover || item.image || null
+}
+
+export function contentCoverOrDefault(item: { cover?: string | null, image?: string | null }) {
+  return contentCover(item) || DEFAULT_CONTENT_COVER
 }
 
 export function xmlEscape(value: string) {

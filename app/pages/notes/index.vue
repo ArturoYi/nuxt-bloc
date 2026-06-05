@@ -75,9 +75,7 @@ const notesListJsonLd = computed(() => {
   };
 });
 
-const notesListJsonLdString = computed(() =>
-  notesListJsonLd.value ? JSON.stringify(notesListJsonLd.value) : "",
-);
+useJsonLd("notes-list-jsonld", notesListJsonLd);
 
 useSiteSeo({
   title: "笔记列表",
@@ -143,12 +141,6 @@ const navCanScrollRight = computed(() => navScrollOverflow.value.right);
 
 <template>
   <div class="container page-stack page-stack--xl">
-    <component
-      v-if="notesListJsonLdString"
-      :is="'script'"
-      type="application/ld+json"
-      >{{ notesListJsonLdString }}</component
-    >
     <nav class="notes-archive-nav" aria-label="笔记分类">
       <div class="notes-archive-nav__viewport">
         <button
