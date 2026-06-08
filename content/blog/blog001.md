@@ -114,3 +114,62 @@ class ViewController: UIViewController {
 ![运行项目](/image/008.jpg)
 
 ![运行项目](/image/009.jpg)
+
+
+至此你已经成功创建了一个基于 UIKit的 Swift项目
+
+## 扩展
+
+### 安装 cocopods 
+
+如果你想使用`CocoaPods`作为包管理器。只需 4 步，注意这里不教如何安装 `pod`环境。
+
+1. 打开终端（Terminal），切换到你的 iOS 项目根目录（即包含 .xcodeproj 文件的文件夹）：
+
+```sh
+cd /你的项目路径/
+```
+
+2. 运行以下命令创建 Podfile 配置文件：
+
+```sh
+pod init
+```
+
+3. 编辑 Podfile
+
+```sh
+target 'YourProjectName' do
+  # 禁用自动包含框架，一般默认即可
+  use_frameworks!
+  # 引入你需要具体的第三方库，版本号可根据需要修改
+  pod 'SnapKit', '~> x.x.x'
+
+end
+```
+
+4. 安装依赖
+
+保存并关闭 Podfile 文件后，在终端运行安装命令：
+
+```sh
+pod install
+```
+
+5. 打开项目
+
+安装完成后，项目根目录下会生成一个 `.xcworkspace` 后缀的工作区文件。切记： 今后请双击打开 你的项目名称`.xcworkspace` 文件来进行开发，不要再使用原来的 `.xcodeproj` 文件。
+
+
+
+这一步并不难，但是在 Xcode 16.x 以及经常会遇到一个报错。
+
+```swift
+Sandbox: rsync(17520) deny(1) file-write-create /Users/cyr/Library/Developer/Xcode/DerivedData/DemoABTest-bhrdabwhdwndkqcojlpuvhqvsqto/Build/Products/Debug-iphoneos/XXX.app/Frameworks/ABTestSDK.framework/.XXXX.SIdlZqvlz0
+```
+
+解决办法:
+
+`Build Settings` 搜索 `sandbox`，把 `Build Options` 中的 `User Script Sandboxing`改为 `NO`
+
+![安装 cocopods ](/image/011.jpg)
