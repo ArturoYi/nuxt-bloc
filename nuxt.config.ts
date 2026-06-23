@@ -40,6 +40,7 @@ export default defineNuxtConfig({
           name: 'description',
           content: SITE_DESCRIPTION,
         },
+        { name: 'baidu-site-verification', content: 'codeva-qvxD5FIJPH' },
         { property: 'og:site_name', content: SITE_BRAND_NAME },
       ],
       link: [
