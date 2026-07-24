@@ -11,76 +11,51 @@ const props = defineProps<{
 const emit = defineEmits<{
   navigate: [id: string]
 }>()
+
+function indentLevel(link: BlogTocLink) {
+  return getOutlineIndentLevel(link.depth, props.minDepth)
+}
+
+/** 仅对顶层大纲项从 1 递增编号（子级用圆点） */
+const topLevelOrdinal = computed(() => {
+  let step = 0
+  const map = new Map<string, number>()
+  for (const link of props.links) {
+    if (indentLevel(link) === 0) {
+      step += 1
+      map.set(link.id, step)
+    }
+  }
+  return map
+})
 </script>
 
 <template>
-  <ol class="blog-outline-nav">
+  <ol class="clay-rail-list clay-rail-list--outline">
     <li
       v-for="link in props.links"
       :key="link.id"
-      class="blog-outline-nav__item"
-      :style="{ '--outline-level': getOutlineIndentLevel(link.depth, props.minDepth) }"
+      class="clay-rail-list__item clay-rail-list__item--indent"
+      :style="{ '--outline-level': indentLevel(link) }"
     >
       <button
         type="button"
-        class="blog-outline-nav__btn"
+        class="clay-rail-item clay-rail-item--outline"
         :class="{ 'is-active': props.activeId === link.id }"
         :aria-current="props.activeId === link.id ? 'location' : undefined"
         @click="emit('navigate', link.id)"
       >
-        <span class="blog-outline-nav__text">{{ link.text }}</span>
+        <span
+          class="clay-rail-item__badge"
+          :class="{ 'clay-rail-item__badge--dot': indentLevel(link) > 0 }"
+          aria-hidden="true"
+        >
+          <template v-if="indentLevel(link) === 0">
+            {{ topLevelOrdinal.get(link.id) }}
+          </template>
+        </span>
+        <span class="clay-rail-item__text clay-rail-item__text--wrap">{{ link.text }}</span>
       </button>
     </li>
   </ol>
 </template>
-
-<style scoped>
-.blog-outline-nav {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.blog-outline-nav__item {
-  margin: 0;
-  padding-left: calc(var(--outline-level, 0) * 0.75rem);
-}
-
-.blog-outline-nav__btn {
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: 0.35rem 0;
-  border: 0;
-  background: transparent;
-  color: var(--muted-strong);
-  font: inherit;
-  font-size: 0.875rem;
-  line-height: 1.35;
-  text-align: left;
-  cursor: pointer;
-  transition: color 0.15s ease;
-}
-
-.blog-outline-nav__btn:hover {
-  color: var(--text);
-}
-
-.blog-outline-nav__btn.is-active {
-  color: var(--brand);
-  font-weight: 600;
-}
-
-.blog-outline-nav__btn:focus-visible {
-  outline: 2px solid var(--brand);
-  outline-offset: 2px;
-  border-radius: 0.2rem;
-}
-
-.blog-outline-nav__text {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-</style>

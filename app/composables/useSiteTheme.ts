@@ -16,7 +16,7 @@ type ThemeTransitionDocument = Document & {
 const THEME_STORAGE_KEY = 'nuxt-bloc-theme'
 
 export function useSiteTheme() {
-  const theme = useState<ThemeMode>('theme-mode', () => 'dark')
+  const theme = useState<ThemeMode>('theme-mode', () => 'light')
 
   const isDark = computed(() => theme.value === 'dark')
   const themeToggleLabel = computed(() =>
@@ -78,12 +78,11 @@ export function useSiteTheme() {
   useHead(() => ({
     htmlAttrs: {
       'data-theme': theme.value,
-      class: isDark.value ? 'dark' : '',
     },
     meta: [
       {
         name: 'theme-color',
-        content: isDark.value ? '#0b1020' : '#f6f7fb',
+        content: isDark.value ? '#1c1826' : '#ebe6f5',
       },
     ],
     link: [

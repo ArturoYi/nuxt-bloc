@@ -23,7 +23,7 @@ const { articleOutline, seriesNav } = useContentArticlePage('blog', page)
       <BlogSeriesNav :nav="seriesNav" />
     </template>
     <template #main>
-      <article v-if="page" class="markdown-body">
+      <article v-if="page" class="markdown-body clay-article-panel">
         <ContentProse :value="page" />
       </article>
     </template>

@@ -1,8 +1,5 @@
 <template>
-  <aside
-    v-scrollbar-reveal
-    class="layout-outline"
-  >
+  <aside class="layout-outline">
     <slot />
   </aside>
 </template>

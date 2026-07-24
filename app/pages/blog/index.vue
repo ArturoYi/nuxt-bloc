@@ -3,216 +3,41 @@ definePageMeta({
   showFooter: true,
 });
 
-import { uniqueCategories } from "~~/utils/content";
+import { groupPostsByContentYear } from "~~/utils/content-archive";
 
-function timestampFromContentDate(date?: string | null) {
-  if (!date) return Number.NEGATIVE_INFINITY;
-  const t = Date.parse(date);
-  return Number.isFinite(t) ? t : Number.NEGATIVE_INFINITY;
-}
-
-function yearFromContentDate(date?: string | null) {
-  if (!date) return null;
-  const t = Date.parse(date);
-  if (!Number.isFinite(t)) return null;
-  const y = new Date(t).getFullYear();
-  return Number.isFinite(y) ? y : null;
-}
-
-const route = useRoute();
-
-const { data: posts } = await useAsyncData("blog-posts", () => {
-  return queryCollection("content")
-    .where("published", "=", true)
-    .where("path", "LIKE", "/blog/%")
-    .order("date", "DESC")
-    .all();
+const { categories, selectedCategory, filteredPosts } = await useContentArchivePage({
+  asyncDataKey: "blog-posts",
+  pathLike: "/blog/%",
 });
 
-const categories = computed(() =>
-  uniqueCategories(posts.value ?? []).filter((c): c is string => Boolean(c)),
+const postsByYear = computed(() => groupPostsByContentYear(filteredPosts.value));
+
+useArchiveItemListJsonLd("blog-list-jsonld", () =>
+  filteredPosts.value.map((post) => ({
+    name: post.title,
+    path: post.path,
+  })),
 );
-
-const selectedCategory = computed(() => {
-  const raw = route.query.category;
-  if (typeof raw !== "string" || !raw.trim()) return null;
-  const decoded = decodeURIComponent(raw);
-  return categories.value.includes(decoded) ? decoded : null;
-});
-
-const sortedBlogPosts = computed(() => {
-  const list = posts.value ?? [];
-  return [...list].sort(
-    (a, b) =>
-      timestampFromContentDate(b.date) - timestampFromContentDate(a.date),
-  );
-});
-
-const filteredBlogPosts = computed(() => {
-  const list = sortedBlogPosts.value;
-  const cat = selectedCategory.value;
-  if (!cat) return list;
-  return list.filter((p) => p.category === cat);
-});
-
-const postsByYear = computed(() => {
-  type Post = (typeof sortedBlogPosts.value)[number];
-  const groups: { label: string; posts: Post[]; yearWatermark: boolean }[] = [];
-  for (const post of filteredBlogPosts.value) {
-    const y = yearFromContentDate(post.date);
-    const label = y === null ? "日期未定" : String(y);
-    const yearWatermark = /^\d{4}$/.test(label);
-    const last = groups[groups.length - 1];
-    if (!last || last.label !== label)
-      groups.push({ label, posts: [post], yearWatermark });
-    else last.posts.push(post);
-  }
-  return groups;
-});
-
-const runtimeConfig = useRuntimeConfig();
-
-function absoluteContentUrl(path: string) {
-  const siteUrl = runtimeConfig.public.siteUrl.replace(/\/$/, "");
-  return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
-}
-
-const blogListJsonLd = computed(() => {
-  const list = filteredBlogPosts.value;
-  if (!list.length) return null;
-  return {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    numberOfItems: list.length,
-    itemListElement: list.map((post, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: post.title,
-      url: absoluteContentUrl(post.path),
-    })),
-  };
-});
-
-useJsonLd("blog-list-jsonld", blogListJsonLd);
 
 useSiteSeo({
   title: "博客列表",
   description: "查看 Nuxt Bloc 当前所有示例文章；可在本页按分类筛选，无需进入单独归档页。",
   path: "/blog",
 });
-
-const categoryScrollRef = ref<HTMLDivElement | null>(null);
-const isMobileNav = ref(false);
-const navScrollOverflow = ref({ overflow: false, left: false, right: false });
-
-function readCategoryScrollState() {
-  const el = categoryScrollRef.value;
-  if (!el || typeof window === "undefined") return;
-  isMobileNav.value = window.matchMedia("(max-width: 639px)").matches;
-  const maxScroll = el.scrollWidth - el.clientWidth;
-  const overflow = maxScroll > 6;
-  const sl = el.scrollLeft;
-  navScrollOverflow.value = {
-    overflow,
-    left: overflow && sl > 6,
-    right: overflow && sl < maxScroll - 6,
-  };
-}
-
-function nudgeCategoryScroll(direction: -1 | 1) {
-  const el = categoryScrollRef.value;
-  if (!el) return;
-  const delta = Math.round(Math.min(el.clientWidth * 0.65, 240));
-  el.scrollBy({ left: direction * delta, behavior: "smooth" });
-}
-
-let categoryScrollResizeObserver: ResizeObserver | null = null;
-
-onMounted(async () => {
-  await nextTick();
-  readCategoryScrollState();
-  const el = categoryScrollRef.value;
-  if (el && typeof ResizeObserver !== "undefined") {
-    categoryScrollResizeObserver = new ResizeObserver(readCategoryScrollState);
-    categoryScrollResizeObserver.observe(el as unknown as Element);
-  }
-  window.addEventListener("resize", readCategoryScrollState);
-});
-
-onBeforeUnmount(() => {
-  categoryScrollResizeObserver?.disconnect();
-  categoryScrollResizeObserver = null;
-  window.removeEventListener("resize", readCategoryScrollState);
-});
-
-watch(categories, async () => {
-  await nextTick();
-  readCategoryScrollState();
-});
-
-const showNavScrollNudges = computed(
-  () => isMobileNav.value && navScrollOverflow.value.overflow,
-);
-const navCanScrollLeft = computed(() => navScrollOverflow.value.left);
-const navCanScrollRight = computed(() => navScrollOverflow.value.right);
 </script>
 
 <template>
   <div class="container page-stack page-stack--xl">
-    <nav class="blog-archive-nav" aria-label="博客分类">
-      <div class="blog-archive-nav__viewport">
-        <button
-          v-show="showNavScrollNudges"
-          type="button"
-          class="blog-archive-nav__nudge"
-          :disabled="!navCanScrollLeft"
-          aria-label="向左滑动查看更多分类"
-          @click="nudgeCategoryScroll(-1)"
-        >
-          <span class="blog-archive-nav__nudge-icon" aria-hidden="true">‹</span>
-        </button>
-        <div
-          ref="categoryScrollRef"
-          class="blog-archive-nav__scroll"
-          @scroll.passive="readCategoryScrollState"
-        >
-          <div class="blog-archive-nav__track">
-            <NuxtLink
-              class="blog-archive-nav__link"
-              :class="{ 'blog-archive-nav__link--active': selectedCategory === null }"
-              to="/blog"
-            >
-              全部
-            </NuxtLink>
-            <NuxtLink
-              v-for="category in categories"
-              :key="category"
-              class="blog-archive-nav__link"
-              :class="{
-                'blog-archive-nav__link--active': selectedCategory === category,
-              }"
-              :to="{ path: '/blog', query: { category } }"
-            >
-              {{ category }}
-            </NuxtLink>
-          </div>
-        </div>
-        <button
-          v-show="showNavScrollNudges"
-          type="button"
-          class="blog-archive-nav__nudge"
-          :disabled="!navCanScrollRight"
-          aria-label="向右滑动查看更多分类"
-          @click="nudgeCategoryScroll(1)"
-        >
-          <span class="blog-archive-nav__nudge-icon" aria-hidden="true">›</span>
-        </button>
-      </div>
-    </nav>
+    <ArchiveCategoryNav
+      :categories="categories"
+      :selected-category="selectedCategory"
+      archive-path="/blog"
+      aria-label="博客分类"
+    />
 
     <p
       v-if="selectedCategory && !postsByYear.length"
-      class="blog-archive-empty"
+      class="archive-empty"
     >
       「{{ selectedCategory }}」分类下暂无文章。
     </p>
@@ -247,106 +72,6 @@ const navCanScrollRight = computed(() => navScrollOverflow.value.right);
 </template>
 
 <style scoped>
-.blog-archive-nav {
-  margin-top: -0.25rem;
-  margin-bottom: 1.75rem;
-  background: transparent;
-}
-
-.blog-archive-nav__viewport {
-  display: flex;
-  align-items: center;
-  gap: 0.15rem;
-  background: transparent;
-}
-
-.blog-archive-nav__scroll {
-  flex: 1;
-  min-width: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.blog-archive-nav__scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.blog-archive-nav__track {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: baseline;
-  justify-content: center;
-  gap: clamp(1rem, 3vw, 1.75rem);
-  width: max-content;
-  min-width: 100%;
-  margin-inline: auto;
-  padding-block: 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.blog-archive-nav__link {
-  flex: 0 0 auto;
-  font-size: 2rem;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  color: var(--text);
-  opacity: 0.7;
-  transition: opacity 0.15s ease, color 0.15s ease;
-}
-
-.blog-archive-nav__link:hover {
-  opacity: 0.85;
-}
-
-.blog-archive-nav__link--active {
-  color: var(--brand);
-  opacity: 1;
-}
-
-.blog-archive-nav__link--active:hover {
-  opacity: 1;
-  color: var(--brand-strong);
-}
-
-.blog-archive-nav__nudge {
-  display: none;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: var(--brand);
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-@media (max-width: 639px) {
-  .blog-archive-nav__nudge {
-    display: flex;
-    width: 2rem;
-    min-height: 2.75rem;
-  }
-}
-
-.blog-archive-nav__nudge:disabled {
-  opacity: 0.32;
-  cursor: default;
-}
-
-.blog-archive-nav__nudge:disabled .blog-archive-nav__nudge-icon {
-  opacity: 0.65;
-}
-
-.blog-archive-empty {
-  margin: 0 0 1.5rem;
-  color: var(--muted);
-}
-
 .blog-timeline {
   display: flex;
   flex-direction: column;

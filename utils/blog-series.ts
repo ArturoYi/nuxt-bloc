@@ -1,4 +1,5 @@
 import type { BlogSeriesArticle, BlogSeriesNav } from '~/types/blog'
+import { contentDateSortKeyOldestFirst } from './content-dates'
 
 /** 未指定 stage 时的默认分组名（不在 UI 中显示分组标题） */
 export const DEFAULT_STAGE_NAME = '未分阶段'
@@ -13,18 +14,12 @@ function stemSortKey(stem: string) {
   return stem.replaceAll('/', '\0')
 }
 
-function timestampFromContentDate(date?: string | null) {
-  if (!date) return Number.POSITIVE_INFINITY
-  const t = Date.parse(date)
-  return Number.isFinite(t) ? t : Number.POSITIVE_INFINITY
-}
-
 /** 按 stem 路径、再按发布日期排序系列文章 */
 export function sortBlogSeriesArticles(articles: BlogSeriesArticle[]) {
   return [...articles].sort((a, b) => {
     const byStem = stemSortKey(a.stem).localeCompare(stemSortKey(b.stem), 'en')
     if (byStem !== 0) return byStem
-    return timestampFromContentDate(a.date) - timestampFromContentDate(b.date)
+    return contentDateSortKeyOldestFirst(a.date) - contentDateSortKeyOldestFirst(b.date)
   })
 }
 

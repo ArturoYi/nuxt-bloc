@@ -13,29 +13,15 @@ useSiteSeo({
 </script>
 
 <template>
-  <div class="page-stack container">
+  <div class="page-stack page-stack--center container">
     <section class="intro-hero">
       <p class="eyebrow">欢迎回来</p>
-      <h1>{{ SITE_BRAND_NAME }}</h1>
+      <h1 class="m-0 text-3xl font-extrabold tracking-tight text-clay-text sm:text-4xl">
+        {{ SITE_BRAND_NAME }}
+      </h1>
       <p class="intro-hero__lead">
         {{ SITE_HOME_INTRO }}
       </p>
     </section>
   </div>
 </template>
-
-<style scoped>
-.page-stack {
-  margin: 0 auto;
-  padding: 5rem 4rem;
-  width: min(var(--banner-w), calc(100% - 1rem));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.intro-hero__lead {
-  white-space: pre-line;
-}
-</style>

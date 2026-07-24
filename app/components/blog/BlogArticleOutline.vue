@@ -41,16 +41,21 @@ function onNavigate(id: string) {
     <nav
       v-show="!isOutlineDrawer"
       id="layout-site-outline"
-      class="blog-outline blog-outline--aside"
+      class="clay-rail clay-rail--outline"
       aria-label="页面导航"
     >
-      <p class="blog-outline__title">页面导航</p>
-      <BlogOutlineNav
-        :links="flatLinks"
-        :active-id="activeId"
-        :min-depth="minDepth"
-        @navigate="onNavigate"
-      />
+      <header class="clay-rail__head">
+        <span class="clay-rail__eyebrow">大纲</span>
+        <h2 class="clay-rail__title">文章大纲</h2>
+      </header>
+      <div v-scrollbar-reveal class="clay-rail__track clay-inset">
+        <BlogOutlineNav
+          :links="flatLinks"
+          :active-id="activeId"
+          :min-depth="minDepth"
+          @navigate="onNavigate"
+        />
+      </div>
     </nav>
 
     <Teleport to="body">
@@ -68,47 +73,37 @@ function onNavigate(id: string) {
         <aside
           v-if="isOutlineDrawer && isOutlineOpen"
           id="layout-site-outline"
-          class="blog-outline-drawer"
+          class="blog-outline-drawer clay-drawer clay-drawer--outline"
           role="dialog"
           aria-modal="true"
           aria-label="页面导航"
         >
-          <header class="blog-outline-drawer__header">
-            <p class="blog-outline-drawer__title">页面导航</p>
+          <header class="clay-drawer__head">
+            <div class="clay-rail__head clay-rail__head--compact">
+              <span class="clay-rail__eyebrow">大纲</span>
+              <p class="clay-rail__title">文章大纲</p>
+            </div>
             <button
               type="button"
-              class="blog-outline-drawer__close"
+              class="clay-btn clay-btn--icon shrink-0"
               aria-label="关闭"
               @click="close"
             >
               <span aria-hidden="true">×</span>
             </button>
           </header>
-          <div v-scrollbar-reveal class="blog-outline-drawer__body">
-            <BlogOutlineNav
-              :links="flatLinks"
-              :active-id="activeId"
-              :min-depth="minDepth"
-              @navigate="onNavigate"
-            />
+          <div v-scrollbar-reveal class="clay-drawer__scroll">
+            <div class="clay-rail__track clay-inset">
+              <BlogOutlineNav
+                :links="flatLinks"
+                :active-id="activeId"
+                :min-depth="minDepth"
+                @navigate="onNavigate"
+              />
+            </div>
           </div>
         </aside>
       </Transition>
     </Teleport>
   </template>
 </template>
-
-<style scoped>
-.blog-outline--aside {
-  padding: 1.25rem 1rem;
-}
-
-.blog-outline__title {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-</style>

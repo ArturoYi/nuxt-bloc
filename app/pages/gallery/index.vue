@@ -12,7 +12,7 @@ useSiteSeo({
 
 <template>
   <div class="container page-stack page-stack--xl">
-    <section class="page-header page-header--wide">
+    <section class="page-header intro-hero max-w-2xl">
       <p class="eyebrow">Gallery</p>
       <h1>照片墙</h1>
       <p>暂无内容。</p>

@@ -17,12 +17,19 @@ export default defineNuxtConfig({
   ssr: true,
   pages: true,
 
-  modules: ['@vueuse/nuxt', '@nuxt/content', 'nuxt-easy-lightbox'],
+  modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@nuxt/content', 'nuxt-easy-lightbox'],
 
-  // 全局注册主题、基础排版与布局骨架（layout.css）；业务与头部/页脚样式仍在各 Vue 的 <style> 中。
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
+    configPath: 'tailwind.config.ts',
+    injectPosition: 1,
+  },
+
+  // 全局注册主题、Tailwind 黏土组件层、基础排版与布局骨架。
   css: [
     '~/assets/css/theme.css',
     '~/assets/css/base.css',
+    // article.css 由 layout.css @import，避免单独条目在 HMR 时漏注册
     '~/assets/css/layout.css',
     '~/assets/css/custom-blocks.css',
     '~/assets/css/lightbox.css',
@@ -35,7 +42,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#0b1020' },
+        { name: 'theme-color', content: '#ebe6f5' },
         {
           name: 'description',
           content: SITE_DESCRIPTION,

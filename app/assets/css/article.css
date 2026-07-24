@@ -1,0 +1,446 @@
+/* 文章阅读页：黏土正文、系列侧栏（clay-rail）、大纲 */
+
+.layout-main {
+  padding-inline: var(--layout-padding);
+}
+
+.layout-main .clay-article-panel {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 var(--layout-padding);
+  padding: clamp(1.1rem, 3.5vw, 2rem) clamp(1rem, 3vw, 1.75rem);
+  background: var(--clay-surface-gradient);
+  border: 1px solid var(--clay-edge);
+  border-radius: var(--clay-radius-xl);
+  box-shadow: var(--clay-raise-hover);
+}
+
+@media (max-width: 767.98px) {
+  .layout-main {
+    padding-inline: calc(var(--layout-padding) * 0.85);
+  }
+
+  .layout-main .clay-article-panel {
+    border-radius: var(--clay-radius-lg);
+    padding: 1rem 0.95rem 1.25rem;
+    box-shadow: var(--clay-raise);
+  }
+}
+
+/* —— 侧栏 / 大纲：与正文同套的黏土「软垫 + 凹槽」 —— */
+.layout-sidebar .clay-rail--series,
+.layout-outline .clay-rail--outline {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.clay-rail {
+  box-sizing: border-box;
+  padding: 0.7rem;
+  background: var(--clay-surface-gradient);
+  border: 1px solid var(--clay-edge);
+  border-radius: var(--clay-radius-xl);
+  box-shadow: var(--clay-raise-hover);
+}
+
+.clay-rail--flat {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* 标题区：小块凸起牌，而非零散 pill */
+.clay-rail__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  margin: 0 0 0.65rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--clay-radius-lg);
+  border: 1px solid var(--clay-edge);
+  background: var(--clay-surface-gradient);
+  box-shadow: var(--clay-raise);
+}
+
+.clay-rail__head--compact {
+  margin-bottom: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.clay-rail__eyebrow {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-strong);
+}
+
+.clay-rail__title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* 导航凹槽：与 tailwind .clay-inset 叠加时加深层次 */
+.clay-rail__track.clay-inset {
+  padding: 0.5rem;
+  border-radius: var(--clay-radius-lg);
+  background: var(--clay-inset-gradient);
+  border: 1px solid var(--clay-inset-edge);
+  box-shadow: var(--clay-inset);
+}
+
+.clay-rail__stage + .clay-rail__stage {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed color-mix(in srgb, var(--muted) 28%, transparent);
+}
+
+.clay-rail__stage-label {
+  margin: 0 0 0.4rem;
+  padding: 0 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.clay-rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.clay-rail-list__item {
+  margin: 0;
+  padding: 0;
+}
+
+.clay-rail-list__item--indent {
+  padding-left: calc(var(--outline-level, 0) * 0.65rem);
+}
+
+/* 大纲列表：每条为独立黏土「软块」，避免默认 ol 序号 + 行内高亮 */
+.clay-rail-list--outline {
+  gap: 0.42rem;
+  list-style: none;
+}
+
+.clay-rail--outline .clay-rail__track.clay-inset {
+  padding: 0.55rem;
+}
+
+/* 槽内条目：统一占位，激活时在同一盒子里「顶出」 */
+.clay-rail-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: var(--clay-radius);
+  background: none;
+  color: var(--muted-strong);
+  font: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  box-shadow: none;
+  transition:
+    color 0.2s ease,
+    box-shadow 0.26s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .clay-rail-item:not(.is-active):hover {
+    color: var(--text);
+    border-color: color-mix(in srgb, var(--clay-edge) 65%, transparent);
+    background: color-mix(in srgb, var(--clay-surface) 35%, transparent);
+  }
+}
+
+.clay-rail-item.is-active {
+  color: var(--brand-strong);
+  font-weight: 700;
+  background: var(--clay-surface);
+  border-color: var(--clay-edge);
+  box-shadow: var(--clay-raise);
+}
+
+@media (hover: hover) {
+  .clay-rail-item.is-active:hover {
+    box-shadow: var(--clay-raise-hover);
+  }
+}
+
+.clay-rail-item.is-active:active {
+  box-shadow: var(--clay-pressed);
+}
+
+.clay-rail-item:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.clay-rail-item__text {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* —— 大纲条目：flex 软块 + 序号徽章 —— */
+.clay-rail-item--outline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: var(--clay-radius-lg);
+  background: color-mix(in srgb, var(--clay-inset-bg) 72%, var(--clay-surface));
+  border-color: color-mix(in srgb, var(--clay-inset-edge) 55%, var(--clay-edge));
+  box-shadow: var(--clay-inset);
+}
+
+.clay-rail-item--outline .clay-rail-item__text--wrap {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  line-height: 1.48;
+  padding-top: 0.12rem;
+}
+
+.clay-rail-item__badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.625rem;
+  height: 1.625rem;
+  padding: 0 0.35rem;
+  border-radius: var(--clay-radius-pill);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--brand-strong);
+  background: var(--clay-surface);
+  border: 1px solid var(--clay-edge);
+  box-shadow: var(--clay-raise);
+}
+
+.clay-rail-item__badge--dot {
+  min-width: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+  margin-top: 0.45rem;
+  margin-inline: 0.55rem;
+  border-radius: var(--clay-radius-pill);
+  background: color-mix(in srgb, var(--brand) 55%, var(--clay-surface));
+  border: 0;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+@media (hover: hover) {
+  .clay-rail-item--outline:not(.is-active):hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--clay-surface) 78%, var(--clay-inset-bg));
+    border-color: var(--clay-edge);
+    box-shadow:
+      4px 4px 10px rgba(0, 0, 0, 0.28),
+      -2px -2px 8px rgba(255, 255, 255, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+}
+
+.clay-rail-item--outline.is-active {
+  color: var(--brand-strong);
+  background: var(--clay-surface);
+  border-color: color-mix(in srgb, var(--brand) 28%, var(--clay-edge));
+  box-shadow: var(--clay-raise);
+}
+
+.clay-rail-item--outline.is-active .clay-rail-item__badge:not(.clay-rail-item__badge--dot) {
+  color: var(--clay-on-brand);
+  background: linear-gradient(145deg, var(--brand-strong), var(--brand));
+  border-color: color-mix(in srgb, var(--brand) 40%, transparent);
+  box-shadow:
+    0 2px 6px color-mix(in srgb, var(--brand) 35%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.clay-rail-item--outline.is-active .clay-rail-item__badge--dot {
+  background: var(--brand-strong);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 25%, transparent);
+}
+
+/* —— 抽屉 —— */
+.clay-drawer {
+  display: flex;
+  flex-direction: column;
+  background: var(--clay-surface-gradient);
+  border: 1px solid var(--clay-edge);
+  box-shadow: var(--clay-raise-hover);
+}
+
+.clay-drawer--outline {
+  border-radius: var(--clay-radius-xl) 0 0 var(--clay-radius-xl);
+}
+
+.clay-drawer--series {
+  border-radius: 0 var(--clay-radius-xl) var(--clay-radius-xl) 0;
+}
+
+.clay-drawer__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 0.65rem;
+  padding: 0.85rem 0.85rem 0.75rem;
+}
+
+.clay-drawer__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 0.85rem 1rem;
+}
+
+.clay-drawer__scroll > .clay-rail__track.clay-inset {
+  padding: 0.55rem;
+}
+
+.markdown-body.clay-article-panel :is(h1, h2, h3, h4) {
+  letter-spacing: -0.02em;
+}
+
+.markdown-body.clay-article-panel blockquote {
+  border-radius: var(--clay-radius);
+  border: 1px solid var(--clay-edge);
+  background: color-mix(in srgb, var(--clay-inset-bg) 65%, var(--clay-surface));
+  box-shadow: var(--clay-inset);
+}
+
+.markdown-body.clay-article-panel :is(table) {
+  border-radius: var(--clay-radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clay-rail-item {
+    transition: none;
+  }
+}
+
+/*
+ * 大屏侧栏 / 大纲：单列整板对齐正文 clay-article-panel，避免透明列 + 内嵌小卡片造成的背景割裂。
+ */
+@media (min-width: 768px) {
+  .layout-sidebar,
+  .layout-outline {
+    display: flex;
+    flex-direction: column;
+    padding: 0.35rem 0 0.5rem;
+    background: transparent;
+  }
+
+  .layout-sidebar .clay-rail--series,
+  .layout-outline .clay-rail--outline {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: clamp(0.75rem, 1.5vw, 1rem) clamp(0.65rem, 1.2vw, 0.85rem);
+    background: var(--clay-surface-gradient);
+    border: 1px solid var(--clay-edge);
+    border-radius: var(--clay-radius-xl);
+    box-shadow: var(--clay-raise-hover);
+  }
+
+  .layout-sidebar .clay-rail__head,
+  .layout-outline .clay-rail__head {
+    flex-shrink: 0;
+    margin: 0 0 0.75rem;
+    padding: 0 0.15rem 0.65rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, var(--clay-edge));
+  }
+
+  .layout-sidebar .clay-rail__track.clay-inset,
+  .layout-outline .clay-rail__track.clay-inset {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (min-width: 992px) {
+  .layout-outline .clay-rail-list--outline {
+    gap: 0.32rem;
+  }
+
+  .layout-outline .clay-rail-item--outline {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  @media (hover: hover) {
+    .layout-outline .clay-rail-item--outline:not(.is-active):hover {
+      color: var(--text);
+      background: color-mix(in srgb, var(--clay-surface) 38%, transparent);
+      border-color: color-mix(in srgb, var(--clay-edge) 45%, transparent);
+      box-shadow: none;
+    }
+  }
+
+  .layout-outline .clay-rail-item--outline.is-active {
+    background: var(--clay-surface-gradient);
+    border-color: var(--clay-edge);
+    box-shadow: var(--clay-raise);
+  }
+}

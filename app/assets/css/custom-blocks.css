@@ -3,9 +3,10 @@
   margin: 1rem 0;
   padding: 1rem 1rem 0.5rem;
   max-width: 100%;
-  border-radius: 0.5rem;
+  border-radius: var(--clay-radius-lg);
   border: 1px solid var(--custom-block-border);
   background: var(--custom-block-bg);
+  box-shadow: var(--clay-raise);
   line-height: 1.7;
 }
 

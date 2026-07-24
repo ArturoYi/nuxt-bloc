@@ -12,7 +12,6 @@ const isSidebarDrawer = useMediaQuery('(max-width: 767.98px)')
 const activeNav = useStableSeriesNav(toRef(props, 'nav'), hasSeriesNav)
 const hasNav = computed(() => Boolean(activeNav.value))
 
-// 导航消失时自动关闭移动端抽屉
 watch(hasNav, (visible) => {
   if (!visible && isSidebarOpen.value) {
     close()
@@ -28,12 +27,16 @@ function onNavigate() {
 
 <template>
   <template v-if="activeNav">
-    <div
-      v-show="!isSidebarDrawer"
-      class="blog-series-nav blog-series-nav--sidebar"
-    >
-      <p class="blog-series-nav__title">{{ activeNav.series }}</p>
-      <BlogSeriesStageList :nav="activeNav" @navigate="onNavigate" />
+    <div v-show="!isSidebarDrawer" class="clay-rail clay-rail--series">
+      <header class="clay-rail__head">
+        <span class="clay-rail__eyebrow">系列</span>
+        <h2 class="clay-rail__title">
+          {{ activeNav.series }}
+        </h2>
+      </header>
+      <div v-scrollbar-reveal class="clay-rail__track clay-inset">
+        <BlogSeriesStageList :nav="activeNav" @navigate="onNavigate" />
+      </div>
     </div>
 
     <Teleport to="body">
@@ -50,42 +53,34 @@ function onNavigate() {
       <Transition name="layout-drawer-left-panel">
         <aside
           v-if="isSidebarDrawer && isSidebarOpen"
-          class="blog-series-drawer"
+          class="blog-series-drawer clay-drawer clay-drawer--series"
           role="dialog"
           aria-modal="true"
           aria-label="系列文章导航"
         >
-          <header class="blog-series-drawer__header">
-            <p class="blog-series-drawer__title">{{ activeNav.series }}</p>
+          <header class="clay-drawer__head">
+            <div class="clay-rail__head clay-rail__head--compact">
+              <span class="clay-rail__eyebrow">系列</span>
+              <p class="clay-rail__title">
+                {{ activeNav.series }}
+              </p>
+            </div>
             <button
               type="button"
-              class="blog-series-drawer__close"
+              class="clay-btn clay-btn--icon shrink-0"
               aria-label="关闭"
               @click="close"
             >
               <span aria-hidden="true">×</span>
             </button>
           </header>
-          <div v-scrollbar-reveal class="blog-series-drawer__body">
-            <BlogSeriesStageList :nav="activeNav" @navigate="onNavigate" />
+          <div v-scrollbar-reveal class="clay-drawer__scroll">
+            <div class="clay-rail__track clay-inset">
+              <BlogSeriesStageList :nav="activeNav" @navigate="onNavigate" />
+            </div>
           </div>
         </aside>
       </Transition>
     </Teleport>
   </template>
 </template>
-
-<style scoped>
-.blog-series-nav--sidebar {
-  padding: 1.25rem 1rem;
-}
-
-.blog-series-nav__title {
-  margin: 0 0 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-</style>

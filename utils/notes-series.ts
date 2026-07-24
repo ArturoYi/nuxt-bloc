@@ -1,4 +1,5 @@
 import { contentCover } from './content'
+import { contentDateSortKeyNewestFirst } from './content-dates'
 import { sortBlogSeriesArticles, toBlogSeriesArticle } from './blog-series'
 
 export interface NotesSeriesPost {
@@ -19,12 +20,6 @@ export interface NotesSeriesSummary {
   cover: string | null
   /** 用于列表排序：系列内最新文章时间戳 */
   sortTimestamp: number
-}
-
-function timestampFromContentDate(date?: string | null) {
-  if (!date) return Number.NEGATIVE_INFINITY
-  const t = Date.parse(date)
-  return Number.isFinite(t) ? t : Number.NEGATIVE_INFINITY
 }
 
 /** 将笔记按 series 聚合，首篇链接与封面遵循系列内 stem / 日期排序 */
@@ -52,7 +47,7 @@ export function buildNotesSeriesSummaries(posts: NotesSeriesPost[]): NotesSeries
     const coverPost = orderedPosts.find(post => contentCover(post)) ?? orderedPosts[0]
     const cover = coverPost ? contentCover(coverPost) : null
     const sortTimestamp = Math.max(
-      ...articles.map(post => timestampFromContentDate(post.date)),
+      ...articles.map((post) => contentDateSortKeyNewestFirst(post.date)),
     )
 
     summaries.push({

@@ -521,3 +521,5 @@ void _isolateEntry(SendPort mainSendPort) {
 ## `Widget` 生命周期
 
 被问频率：较高（3/5）
+
+## 用过哪些状态管理Package
