@@ -31,13 +31,13 @@ importers:
         version: 6.0.0
       remark-callout-local:
         specifier: file:packages/remark-callout-local
-        version: file:packages/remark-callout-local
+        version: link:packages/remark-callout-local
       remark-code-group-compat:
         specifier: file:packages/remark-code-group-compat
-        version: file:packages/remark-code-group-compat
+        version: link:packages/remark-code-group-compat
       remark-container-compat:
         specifier: file:packages/remark-container-compat
-        version: file:packages/remark-container-compat
+        version: link:packages/remark-container-compat
       remark-directive:
         specifier: ^4.0.0
         version: 4.0.0
@@ -72,6 +72,30 @@ importers:
       wrangler:
         specifier: ^4.92.0
         version: 4.92.0
+
+  packages/remark-callout-local:
+    dependencies:
+      remark-container-compat:
+        specifier: file:../remark-container-compat
+        version: link:../remark-container-compat
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.1.0
+
+  packages/remark-code-group-compat:
+    dependencies:
+      unist-util-visit:
+        specifier: ^5.1.0
+        version: 5.1.0
+
+  packages/remark-container-compat:
+    dependencies:
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      unified:
+        specifier: ^11.0.0
+        version: 11.0.5
 
 packages:
 
@@ -4296,15 +4320,6 @@ packages:
 
   rehype-sort-attributes@5.0.1:
     resolution: {integrity: sha512-Bxo+AKUIELcnnAZwJDt5zUDDRpt4uzhfz9d0PVGhcxYWsbFj5Cv35xuWxu5r1LeYNFNhgGqsr9Q2QiIOM/Qctg==}
-
-  remark-callout-local@file:packages/remark-callout-local:
-    resolution: {directory: packages/remark-callout-local, type: directory}
-
-  remark-code-group-compat@file:packages/remark-code-group-compat:
-    resolution: {directory: packages/remark-code-group-compat, type: directory}
-
-  remark-container-compat@file:packages/remark-container-compat:
-    resolution: {directory: packages/remark-container-compat, type: directory}
 
   remark-directive@4.0.0:
     resolution: {integrity: sha512-7sxn4RfF1o3izevPV1DheyGDD6X4c9hrGpfdUpm7uC++dqrnJxIZVkk7CoKqcLm0VUMAuOol7Mno3m6g8cfMuA==}
@@ -9955,24 +9970,6 @@ snapshots:
     dependencies:
       '@types/hast': 3.0.4
       unist-util-visit: 5.1.0
-
-  remark-callout-local@file:packages/remark-callout-local:
-    dependencies:
-      remark-container-compat: file:packages/remark-container-compat
-      unist-util-visit: 5.1.0
-    transitivePeerDependencies:
-      - supports-color
-
-  remark-code-group-compat@file:packages/remark-code-group-compat:
-    dependencies:
-      unist-util-visit: 5.1.0
-
-  remark-container-compat@file:packages/remark-container-compat:
-    dependencies:
-      remark-parse: 11.0.0
-      unified: 11.0.5
-    transitivePeerDependencies:
-      - supports-color
 
   remark-directive@4.0.0:
     dependencies:
